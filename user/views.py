@@ -1,0 +1,66 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password, check_password
+
+from .forms import UserForm
+from .models import User
+from .helper import login_required
+# Create your views here.
+
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username, password)
+        try:
+            user = User.objects.get(username=username)
+            # 权限
+        except User.DoesNotExist:
+            print("用户不存在")
+            return render(request, 'login.html', {'error': "用户不存在"})
+        if check_password(password, user.password):
+            request.session['uid'] = user.id
+            request.session['username'] = user.username
+            # power = user.power
+            return render(request, 'index.html', {'user': user})
+        else:
+            return render(request, 'login.html', {'error': '密码错误'})
+    return render(request, 'login.html')
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.password = make_password(user.password)
+            user.save()
+            return redirect('/login')
+        else:
+            return render(request, 'register.html', {'effor': form.errors})
+    return render(request, 'register.html')
+
+
+@login_required
+def permission_assignment(request):
+    return render(request, 'permission_assignment.html')
+
+
+@login_required
+def logout(request):
+    request.session.flush()
+    return redirect('/index')
+
+
+def page_recoverpw(request):
+    return render(request, 'page_recoverpw.html')
+
+
+@login_required
+def user_info(request):
+    uid = request.session.get('uid')
+    try:
+        user = User.objects.get(id=uid)
+    except User.DoesNotExist:
+        return redirect('login')
+    return render(request, 'user_info.html', {'user': user})
