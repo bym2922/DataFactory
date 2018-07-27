@@ -48,24 +48,45 @@ def chart_scatter(request):
 def table_cmplete(request):
     fname = '同仁堂.xlsx'
     data = pd.read_excel(fpath+'\\files\\'+fname)
-    # print(data)
-    data1 = list(pd.read_excel(fpath+'\\files\\'+fname, userows=[]))
-    # print(data1)
-    for i in range(len(data1)):
-        print(data1[i])
-        d1 = data[data1[i]]
-        for j in range(len(d1)):
-            if str(d1[j]) == 'nan':
-                d1[j] = ''
-            # print(d1[j])
-    return render(request, "table_complete.html", {'data': data1})
 
+    a = data.index.tolist()
+    b = []
+    data1 = dict()
+
+    for i in a:
+        b.append(data.iloc[i].values.tolist())
+
+    for i, j in zip(a, b):
+        data1.update({str(i): j})
+
+
+    data2 = {'xxx':data.columns.tolist()}
+    # print(data)
+    # data1 = dict()
+    # for i in range(len(data.columns)):
+    #     data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
+    # print(type(data1))
+    # len1 = data.count().max()
+
+    # return HttpResponse(json.dumps(dict1), content_type='application/json')
+    # data1 = list(pd.read_excel(fpath+'\\files\\'+fname, userows=[]))
+    # # print(data1)
+    # for i in range(len(data1)):
+    #     print(data1[i])
+    #     d1 = data[data1[i]]
+    #     for j in range(len(d1)):
+    #         if str(d1[j]) == 'nan':
+    #             d1[j] = ''
+    #         # print(d1[j])
+    return render(request, "table_complete.html", {'data': data1, 'data2': data2})
+    # return render(request, "table_complete.html")
 
 
 @login_required
 def typography(request):
 
     return render(request, "typography.html")
+
 
 @login_required
 def file_upload(request):
