@@ -17,14 +17,15 @@ def login(request):
             # 权限
         except User.DoesNotExist:
             print("用户不存在")
-            return render(request, 'login.html', {'error': "用户不存在"})
+            return redirect('/login')
         if check_password(password, user.password):
             request.session['uid'] = user.id
             request.session['username'] = user.username
             # power = user.power
-            return render(request, 'index.html', {'user': user})
+            request.session['power'] = user.power
+            return redirect('/index')
         else:
-            return render(request, 'login.html', {'error': '密码错误'})
+            return redirect('/login')
     return render(request, 'login.html')
 
 
@@ -37,7 +38,7 @@ def register(request):
             user.save()
             return redirect('/login')
         else:
-            return render(request, 'register.html', {'effor': form.errors})
+            return redirect('/register')
     return render(request, 'register.html')
 
 
@@ -57,10 +58,10 @@ def page_recoverpw(request):
 
 
 @login_required
-def user_info(request):
+def typography(request):
     uid = request.session.get('uid')
     try:
         user = User.objects.get(id=uid)
     except User.DoesNotExist:
         return redirect('login')
-    return render(request, 'user_info.html', {'user': user})
+    return render(request, 'typography.html', {'user': user})

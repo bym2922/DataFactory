@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest,HttpResponse
 from django.core import serializers
 from .forms import FileForm
@@ -15,6 +15,7 @@ fpath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def index(request):
+    # clear_data(request)
     return render(request, "index.html")
 
 
@@ -26,75 +27,53 @@ def table_basic(request):
 
 @login_required
 def chart_columnar(request):
-    return render(request, "chart_columnar.html")
+    uname = request.session.get('username')
+    data = clear_data(uname)
+    return render(request, "chart_columnar.html", {'data': data})
 
 
 @login_required
 def chart_line(request):
-    return render(request, "chart_line.html")
+    uname = request.session.get('username')
+    data = clear_data(uname)
+    return render(request, "chart_line.html", {'data': data})
 
 
 @login_required
 def chart_pie(request):
-    return render(request, "chart_pie.html")
+    uname = request.session.get('username')
+    data = clear_data(uname)
+    return render(request, "chart_pie.html", {'data': data})
 
 
 @login_required
 def chart_scatter(request):
-    return render(request, "chart_scatter.html")
+    uname = request.session.get('username')
+    data = clear_data(uname)
+    return render(request, "chart_scatter.html", {'data': data})
 
 
 @login_required
 def table_cmplete(request):
-    fname = '同仁堂.xlsx'
-    data = pd.read_excel(fpath+'\\files\\'+fname)
-
+    uname = request.session.get('username')
+    data = get_data(uname)
     a = data.index.tolist()
     b = []
     data1 = dict()
-
     for i in a:
         b.append(data.iloc[i].values.tolist())
-
     for i, j in zip(a, b):
         data1.update({str(i): j})
-
-
-    data2 = {'xxx':data.columns.tolist()}
-    # print(data)
-    # data1 = dict()
-    # for i in range(len(data.columns)):
-    #     data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
-    # print(type(data1))
-    # len1 = data.count().max()
-
-    # return HttpResponse(json.dumps(dict1), content_type='application/json')
-    # data1 = list(pd.read_excel(fpath+'\\files\\'+fname, userows=[]))
-    # # print(data1)
-    # for i in range(len(data1)):
-    #     print(data1[i])
-    #     d1 = data[data1[i]]
-    #     for j in range(len(d1)):
-    #         if str(d1[j]) == 'nan':
-    #             d1[j] = ''
-    #         # print(d1[j])
+    data2 = {'xxx': data.columns.tolist()}
     return render(request, "table_complete.html", {'data': data1, 'data2': data2})
-    # return render(request, "table_complete.html")
-
-
-@login_required
-def typography(request):
-
-    return render(request, "typography.html")
 
 
 @login_required
 def file_upload(request):
     if request.method == 'POST':
-        uname = request.user.username
+        uname = request.session.get('username')
         print(uname)
         file = request.FILES.get('file')
-
         if file:
             fname = file.name
             f1 = File.objects.filter(fname=fname)
@@ -106,9 +85,7 @@ def file_upload(request):
             with open(os.path.join('files', fname), 'w', encoding="utf-8") as f:
                 if fileext == "xlsx" or fileext == "xls" or fileext == "csv":
                     data = pd.read_excel(file)
-                    # print(data)
                     data1 = list(pd.read_excel(file))
-                    # print(HttpResponse(json.dumps(data1), content_type='application/json'))
                     # 创建一个workbook 设置编码
                     workbook = xlwt.Workbook(encoding='utf-8')
                     # 创建一个worksheet
@@ -128,11 +105,13 @@ def file_upload(request):
                     f2 = File(fname=fname, fpath=fpath+'\\files\\'+fname, uname=uname, date=date)
                     # 将本地文件保存到数据库
                     f2.save()
+                    # request.session['fid'] = f2.id
+                    # request.session['fname'] = f2.fname
                     print(f2.fname, f2.date, f2.fpath, f2.uname)
                     file_list = File.objects.all()
                     for i in file_list:
                         print(i.fname, i.uname, i.fpath, i.date)
-                    return render(request, 'table_basic.html', {'fname': fname})
+                    return redirect('/table_basic')
                 else:
                     print("文件类型不支持！")
                     # for line in file:
@@ -144,3 +123,24 @@ def file_upload(request):
             return render(request, "file_upload.html")
     else:
         return render(request, "file_upload.html")
+
+
+# @login_required
+def get_data(uname):
+    f = File.objects.get(uname=uname).first()
+    print(f)
+    data = pd.read_excel(fpath + '\\files\\' + fname)
+    print(data)
+    return data
+
+
+# @login_required
+def clear_data(uname):
+    data = get_data(uname)
+    data1 = dict()
+    for i in range(len(data.columns)):
+        data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
+    print(type(data1))
+    # len1 = data.count().max()
+    # return HttpResponse(json.dumps(data1), content_type='application/json')
+    return data1

@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^file_upload$', fv.file_upload),
     url(r'^table_basic$', fv.table_basic),
     url(r'^table_complete$', fv.table_cmplete),
-    url(r'^typography$', fv.typography),
+    url(r'^typography$', uv.typography),
     url(r'^chart_columnar$', fv.chart_columnar),
     url(r'^chart_line$', fv.chart_line),
     url(r'^chart_pie$', fv.chart_pie),
@@ -33,6 +33,8 @@ urlpatterns = [
     url(r'^page_recoverpw$', uv.page_recoverpw),
     url(r'^register$', uv.register),
     url(r'^permission_assignment$', uv.permission_assignment),
-    url(r'^logout$', uv.logout)
+    url(r'^logout$', uv.logout),
+    url(r'^get_data$', fv.get_data),
+    url(r'^clear_data$', fv.clear_data),
 
 ]
