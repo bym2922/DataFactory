@@ -26,37 +26,42 @@ def table_basic(request):
 
 
 @login_required
-def chart_columnar(request):
-    uname = request.session.get('username')
-    data = clear_data(uname)
+def chart_columnar(request, fname):
+    print(fname)
+    # uname = request.session.get('username')
+    data = clear_data(fname)
     return render(request, "chart_columnar.html", {'data': data})
 
 
 @login_required
-def chart_line(request):
-    uname = request.session.get('username')
-    data = clear_data(uname)
+def chart_line(request, fname):
+    print(fname)
+    print('22222222222222')
+    # uname = request.session.get('username')
+    data = clear_data(fname)
     return render(request, "chart_line.html", {'data': data})
 
 
 @login_required
-def chart_pie(request):
-    uname = request.session.get('username')
-    data = clear_data(uname)
+def chart_pie(request, fname):
+    print(fname)
+    # uname = request.session.get('username')
+    data = clear_data(fname)
     return render(request, "chart_pie.html", {'data': data})
 
 
 @login_required
-def chart_scatter(request):
-    uname = request.session.get('username')
-    data = clear_data(uname)
+def chart_scatter(request, fname):
+    print(fname)
+    # uname = request.session.get('username')
+    data = clear_data(fname)
     return render(request, "chart_scatter.html", {'data': data})
 
 
 @login_required
-def table_cmplete(request):
-    uname = request.session.get('username')
-    data = get_data(uname)
+def table_cmplete(request, fname):
+    # uname = request.session.get('username')
+    data = get_data(fname)
     a = data.index.tolist()
     b = []
     data1 = dict()
@@ -65,7 +70,7 @@ def table_cmplete(request):
     for i, j in zip(a, b):
         data1.update({str(i): j})
     data2 = {'xxx': data.columns.tolist()}
-    return render(request, "table_complete.html", {'data': data1, 'data2': data2})
+    return render(request, "table_complete.html", {'data': data1, 'data2': data2, 'fname': fname})
 
 
 @login_required
@@ -105,19 +110,11 @@ def file_upload(request):
                     f2 = File(fname=fname, fpath=fpath+'\\files\\'+fname, uname=uname, date=date)
                     # 将本地文件保存到数据库
                     f2.save()
-                    # request.session['fid'] = f2.id
-                    # request.session['fname'] = f2.fname
-                    print(f2.fname, f2.date, f2.fpath, f2.uname)
-                    file_list = File.objects.all()
-                    for i in file_list:
-                        print(i.fname, i.uname, i.fpath, i.date)
+                    request.session['fid'] = f2.id
+                    request.session['fname'] = f2.fname
                     return redirect('/table_basic')
                 else:
                     print("文件类型不支持！")
-                    # for line in file:
-                    #     print(line)
-                    #     line1 = line.decode("utf-8")
-                    #     f.write(line1)
                 return render(request, "file_upload.html")
         else:
             return render(request, "file_upload.html")
@@ -126,21 +123,23 @@ def file_upload(request):
 
 
 # @login_required
-def get_data(uname):
-    f = File.objects.get(uname=uname).first()
+def get_data(fname):
+    print('11111111111111')
+    f = File.objects.get(fname=fname).fpath
+    print('=====================')
     print(f)
-    data = pd.read_excel(fpath + '\\files\\' + fname)
-    print(data)
+    if f:
+        print('jjjjjjjjjjjjjjjjjjjjjjjjj')
+        data = pd.read_excel(f)
     return data
 
 
 # @login_required
-def clear_data(uname):
-    data = get_data(uname)
+def clear_data(fname):
+    data = get_data(fname)
     data1 = dict()
     for i in range(len(data.columns)):
         data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
     print(type(data1))
-    # len1 = data.count().max()
     # return HttpResponse(json.dumps(data1), content_type='application/json')
     return data1

@@ -5,6 +5,32 @@
 <h4 class="page-title">饼状图</h4>
 {% endblock %}
 
+{% block chart %}
+<li class="admin-parent">
+    <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}">
+        <i class="am-icon-line-chart" aria-hidden="true"></i> 统计图表
+        <span class="am-icon-angle-right am-fr am-margin-right"></span>
+    </a>
+    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav2">
+        <li>
+            <a href="/chart_line/{{ fname }}" class="am-cf"> 折线图</span>
+            </a>
+        </li>
+        <li>
+            <a href="/chart_columnar/{{ fname }}" class="am-cf"> 柱状图</span>
+            </a>
+        </li>
+        <li>
+            <a href="/chart_pie/{{ fname }}" class="am-cf"> 饼状图</span>
+            </a>
+        </li>
+        <li>
+            <a href="/chart_scatter/{{ fname }}" class="am-cf">散点图</span>
+            </a>
+        </li>
+    </ul>
+</li>
+{% endblock %}
 
 <!-- ============================================================== -->
 <!-- Start right Content here -->
