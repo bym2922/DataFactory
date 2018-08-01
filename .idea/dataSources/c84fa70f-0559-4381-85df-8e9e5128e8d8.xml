@@ -542,17 +542,32 @@ model</ColNames>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="122" parent="19" name="sqlite_autoindex_user_user_1">
+    <column id="122" parent="19" name="power">
+      <Position>5</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="123" parent="19" name="dept">
+      <Position>6</Position>
+      <DataType>varchar(128)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="124" parent="19" name="job">
+      <Position>7</Position>
+      <DataType>varchar(128)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="125" parent="19" name="sqlite_autoindex_user_user_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>username</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <key id="123" parent="19">
+    <key id="126" parent="19">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="124" parent="19">
+    <key id="127" parent="19">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_user_user_1</UnderlyingIndexName>
     </key>

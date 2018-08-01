@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^table_complete/(.*)$', fv.table_cmplete),
     url(r'^typography$', uv.typography),
     url(r'^chart_columnar/(.*)$', fv.chart_columnar),
-    url(r'^chart_line/(.*)', fv.chart_line),
+    url(r'^chart_line/(.*)$', fv.chart_line),
     url(r'^chart_pie/(.*)$', fv.chart_pie),
     url(r'^chart_scatter/(.*)$', fv.chart_scatter),
     url(r'^login$', uv.login),

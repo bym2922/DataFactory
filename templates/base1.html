@@ -46,7 +46,7 @@
 				<li class="hidden-xs am-hide-sm-only">
 					<form role="search" class="app-search">
 						<input type="text" placeholder="Search..." class="form-control">
-						<a href="index">
+						<a href="/index">
 							<img src="../static/img/search.png">
 						</a>
 					</form>
@@ -95,7 +95,7 @@
 
 				<ul class="am-list admin-sidebar-list">
 					<li>
-						<a href="index">
+						<a href="/index">
 							<span class="am-icon-home"></span> 首页</a>
 					</li>
 					<li class="admin-parent">
@@ -120,19 +120,19 @@
 						</a>
 						<ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav2">
 							<li>
-								<a href="/chart_line/{{ fname }}" class="am-cf"> 折线图</span>
+								<a href="/chart_line/{{ request.session.fname }}" class="am-cf"> 折线图</span>
 								</a>
 							</li>
 							<li>
-								<a href="/chart_columnar/{{ fname }}" class="am-cf"> 柱状图</span>
+								<a href="/chart_columnar/{{ request.session.fname }}" class="am-cf"> 柱状图</span>
 								</a>
 							</li>
 							<li>
-								<a href="/chart_pie/{{ fname }}" class="am-cf"> 饼状图</span>
+								<a href="/chart_pie/{{ request.session.fname }}" class="am-cf"> 饼状图</span>
 								</a>
 							</li>
 							<li>
-								<a href="/chart_scatter/{{ fname }}" class="am-cf">散点图</span>
+								<a href="/chart_scatter/{{ request.session.fname }}" class="am-cf">散点图</span>
 								</a>
 							</li>
 						</ul>
@@ -161,7 +161,6 @@
 
         {% endblock %}
 		<!-- end right Content here -->
-
 	</div>
 
 	<!-- navbar -->

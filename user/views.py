@@ -21,7 +21,6 @@ def login(request):
         if check_password(password, user.password):
             request.session['uid'] = user.id
             request.session['username'] = user.username
-            # power = user.power
             request.session['power'] = user.power
             return redirect('/index')
         else:
