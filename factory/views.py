@@ -5,18 +5,18 @@ from .forms import FileForm
 from .models import File
 from user.helper import login_required
 import xlwt
+import xlrd
 import json
 import time
 import os
 import pandas as pd
 # Create your views here.
 
-fpath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 def index(request):
     fname = File.objects.get(fname='同仁堂.xlsx').fname
-    data = clear_data(fname)
+    # data = clear_data(fname)
+    data = get_data(fname)
     return render(request, "index.html", {'data': data})
 
 
@@ -28,32 +28,41 @@ def table_basic(request):
 
 @login_required
 def chart_columnar(request, fname):
-    data = clear_data(fname)
-    return render(request, "chart_columnar.html", {'data': data})
+    # data = clear_data(fname)
+    data = get_data(fname)
+    # return render(request, "chart_columnar.html", {'data': data})
+    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
 @login_required
 def chart_line(request, fname):
-    data = clear_data(fname)
-    return render(request, "chart_line.html", {'data': data})
-
+    # data = clear_data(fname)
+    data = get_data(fname)
+    print(type(data))
+    # return render(request, "chart_line.html", {'data': data})
+    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 @login_required
 def chart_pie(request, fname):
-    data = clear_data(fname)
-    return render(request, "chart_pie.html", {'data': data})
+    # data = clear_data(fname)
+    data = get_data(fname)
+    # return render(request, "chart_pie.html", {'data': data})
+    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
 @login_required
 def chart_scatter(request, fname):
-    data = clear_data(fname)
-    return render(request, "chart_scatter.html", {'data': data})
+    # data = clear_data(fname)
+    data = get_data(fname)
+    # return render(request, "chart_scatter.html", {'data': data})
+    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
 @login_required
 def table_cmplete(request, fname):
     request.session['fname'] = fname
-    data = get_data(fname)
+    # data = get_data(fname)
+    data = clear_data(fname)
     a = data.index.tolist()
     b = []
     data1 = dict()
@@ -67,6 +76,7 @@ def table_cmplete(request, fname):
 
 @login_required
 def file_upload(request):
+    fpath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     if request.method == 'POST':
         uname = request.session.get('username')
         print(uname)
@@ -112,20 +122,43 @@ def file_upload(request):
         return render(request, "file_upload.html")
 
 
-# 读取表格数据
+# 读取表格数据, 按行获取
 def get_data(fname):
     f = File.objects.get(fname=fname).fpath
     if f:
-        data = pd.read_excel(f)
-    return data
+        # data = pd.read_excel(f)
+        data = xlrd.open_workbook(f, formatting_info=True)
+        tblTDLYMJANQSXZB = data.sheets()[0]
+        # 找到有几列几列
+        nrows = tblTDLYMJANQSXZB.nrows  # 行数
+        ncols = tblTDLYMJANQSXZB.ncols  # 列数
+        print(nrows, ncols)
+        totalArray = []
+        arr = []
+        for i in range(0, ncols):
+            arr.append(tblTDLYMJANQSXZB.cell(0, i).value)
+        for rowindex in range(1, nrows):
+            dic = {}
+            for colindex in range(0, ncols):
+                s = tblTDLYMJANQSXZB.cell(rowindex, colindex).value
+                dic[arr[colindex]] = s
+            totalArray.append(dic)
+        # a = json.dumps(totalArray, ensure_ascii=False)
+        # print(a)
+        print(totalArray)
+    return totalArray
 
 
 # 对读取到的数据进行处理，为json格式
 def clear_data(fname):
-    data = get_data(fname)
-    data1 = dict()
-    for i in range(len(data.columns)):
-        data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
-    # print(type(data1))
-    # return HttpResponse(json.dumps(data1), content_type='application/json')
-    return data1
+    f = File.objects.get(fname=fname).fpath
+    if f:
+        data = pd.read_excel(f)
+#     data = get_data(fname)
+#     data1 = dict()
+#     for i in range(len(data.columns)):
+#         data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
+#     print(type(data1))
+#     # return HttpResponse(json.dumps(data1), content_type='application/json')
+#     print(data1)
+        return data

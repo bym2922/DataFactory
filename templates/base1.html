@@ -137,6 +137,7 @@
 							</li>
 						</ul>
 					</li>
+                    {% if request.session.power == 2 %}
                     <li class="admin-parent">
 						<a class="am-cf" data-am-collapse="{target: '#collapse-nav3'}">
 							<span class="am-icon-blind"></span> 权限管理
@@ -148,6 +149,11 @@
 								</a>
 							</li>
 						</ul>
+					</li>
+                    {% endif %}
+                    <li>
+						<a href="/logout">
+							<span class="am-icon-blind"></span> 退出登录</a>
 					</li>
 				</ul>
 			</div>
