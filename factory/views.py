@@ -20,13 +20,13 @@ def index(request):
     return render(request, "index.html", {'data': data})
 
 
-@login_required
+# @login_required
 def table_basic(request):
     file_list = File.objects.all()
     return render(request, "table_basic.html", {'file_list': file_list})
 
 
-@login_required
+# @login_required
 def chart_columnar(request, fname):
     # data = clear_data(fname)
     data = get_data(fname)
@@ -34,28 +34,37 @@ def chart_columnar(request, fname):
     return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
-@login_required
+# @login_required
 def chart_line(request, fname):
-    # data = clear_data(fname)
     data = get_data(fname)
-    print(type(data))
-    # return render(request, "chart_line.html", {'data': data})
+    # print(type(data))
+    # print(data, '==========')
+    # hearder = {
+    #     'Access_Control_Allow_Credentials': 'true',
+    #     'Access_Control_Allow_Origin': 'http://192.168.1.177'
+    # }
+    # # return render(request, "chart_line.html", {'data': data})
+    # response = HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+    # response['Access_Control_Allow_Credentials'] = True
+    # response['Access_Control_Allow_Origin'] = 'http://192.168.1.177'
     return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+    # return response
 
-@login_required
+
+# @login_required
 def chart_pie(request, fname):
     # data = clear_data(fname)
     data = get_data(fname)
-    # return render(request, "chart_pie.html", {'data': data})
-    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+    return render(request, "chart_pie.html", {'data': data})
+    # return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
-@login_required
+# @login_required
 def chart_scatter(request, fname):
     # data = clear_data(fname)
     data = get_data(fname)
-    # return render(request, "chart_scatter.html", {'data': data})
-    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+    return render(request, "chart_scatter.html", {'data': data})
+    # return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
 @login_required
@@ -143,9 +152,9 @@ def get_data(fname):
                 s = tblTDLYMJANQSXZB.cell(rowindex, colindex).value
                 dic[arr[colindex]] = s
             totalArray.append(dic)
-        # a = json.dumps(totalArray, ensure_ascii=False)
-        # print(a)
-        print(totalArray)
+        a = json.dumps(totalArray, ensure_ascii=False)
+        print(a)
+        # print(totalArray)
     return totalArray
 
 
@@ -154,11 +163,11 @@ def clear_data(fname):
     f = File.objects.get(fname=fname).fpath
     if f:
         data = pd.read_excel(f)
-#     data = get_data(fname)
-#     data1 = dict()
-#     for i in range(len(data.columns)):
-#         data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
-#     print(type(data1))
-#     # return HttpResponse(json.dumps(data1), content_type='application/json')
-#     print(data1)
+        # data = get_data(fname)
+        # data1 = dict()
+        # for i in range(len(data.columns)):
+        #     data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
+        # print(type(data1))
+        # # return HttpResponse(json.dumps(data1), content_type='application/json')
+        # print(data1)
         return data
