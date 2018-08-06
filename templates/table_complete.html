@@ -13,26 +13,26 @@
     <div class="card-box">
       <!-- Row start -->
       <div class="am-g">
-        <div class="am-u-sm-12 am-u-md-6">
-          <div class="am-btn-toolbar">
-            <div class="am-btn-group am-btn-group-xs">
-              <button type="button" class="am-btn am-btn-default">
-                <span class="am-icon-plus"></span> 新增</button>
-              <button type="button" class="am-btn am-btn-default">
-                <span class="am-icon-trash-o"></span> 删除</button>
-            </div>
-          </div>
-        </div>
+{#        <div class="am-u-sm-12 am-u-md-6">#}
+{#          <div class="am-btn-toolbar">#}
+{#            <div class="am-btn-group am-btn-group-xs">#}
+{#              <button type="button" class="am-btn am-btn-default">#}
+{#                <span class="am-icon-plus"></span> 新增</button>#}
+{#              <button type="button" class="am-btn am-btn-default">#}
+{#                <span class="am-icon-trash-o"></span> 删除</button>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
 
-        <div class="am-u-sm-12 am-u-md-3">
-          <div class="am-input-group am-input-group-sm">
-            <input type="text" class="am-form-field">
-            <span class="am-input-group-btn">
-              <button class="am-btn am-btn-default" type="button">搜索</button>
-            </span>
-          </div>
-        </div>
-      </div>
+{#        <div class="am-u-sm-12 am-u-md-3">#}
+{#          <div class="am-input-group am-input-group-sm">#}
+{#            <input type="text" class="am-form-field">#}
+{#            <span class="am-input-group-btn">#}
+{#              <button class="am-btn am-btn-default" type="button">搜索</button>#}
+{#            </span>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
       <!-- Row end -->
 
       <!-- Row start -->
@@ -67,27 +67,15 @@
               </thead>
             </table>
             <div class="am-cf">
-              共 15 条记录
+              共 {{ len }} 条记录
               <div class="am-fr">
                 <ul class="am-pagination">
                   <li class="am-disabled">
                     <a href="#">«</a>
                   </li>
-                  <li class="am-active">
-                    <a href="#">1</a>
-                  </li>
-                  <li>
-                    <a href="#">2</a>
-                  </li>
-                  <li>
-                    <a href="#">3</a>
-                  </li>
-                  <li>
-                    <a href="#">4</a>
-                  </li>
-                  <li>
-                    <a href="#">5</a>
-                  </li>
+                    {% for n in pages %}
+                        <li><a href="?fname={{ fname }}&page={{forloop.counter}}">{{forloop.counter}}</a></li>
+                    {% endfor %}
                   <li>
                     <a href="#">»</a>
                   </li>

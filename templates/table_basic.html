@@ -13,35 +13,69 @@
     <!-- Start content -->
     <div class="content">
         <div class="am-g">
-            <!-- Row start -->
-            <div class="am-u-sm-6">
-                <div class="card-box">
-                    <!-- col start -->
-                    <table class="am-table">
-                        <thead>
-                            <tr>
-                                <th>文件名</th>
-                                <th>文件地址</th>
-                                <th>上传时间</th>
-                                <th>上传者</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for i in file_list %}
-                            <tr>
-                                <td><a href="/table_complete/{{ i.fname }}">{{ i.fname }}</a></td>
-                                <td>{{ i.fpath }}</td>
-                                <td>{{ i.date }}</td>
-                                <td>{{ i.uname }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    <!-- col end -->
-                </div>
-            </div>
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+                <thead>
+                    <tr>
+                        <th class="table-check"><input type="checkbox" id="selectAll" /></th>
+                        <th>文件名</th>
+                        <th>文件地址</th>
+                        <th>上传时间</th>
+                        <th>上传者</th>
+                        {% if request.session.power == 2 %}
+                            <th>操作</th>
+                        {% endif %}
+
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in file_list %}
+                    <tr>
+                        <td><input type="checkbox" name="ids"/></td>
+                        <td><a href="/table_complete/?fname={{ i.fname }}&page=1">{{ i.fname }}</a></td>
+                        <td>{{ i.fpath }}</td>
+                        <td>{{ i.date }}</td>
+                        <td>{{ i.uname }}</td>
+                        {% if request.session.power == 2 %}
+                        <td>
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="dell(this)" value="confirm">
+                                        删除</button>
+                                    <button class="am-btn am-btn-default am-btn-xs am-text-secondary editor " onclick="modify(this)">
+                                        修改</button>
+
+                                </div>
+                            </div>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+                    <div class="am-cf">
+                      共 {{ len }} 条记录
+                      <div class="am-fr">
+                        <ul class="am-pagination">
+                          <li class="am-disabled">
+                            <a href="#">«</a>
+                          </li>
+                            {% for n in pages %}
+                                <li><a href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+                            {% endfor %}
+                          <li>
+                            <a href="#">»</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                <hr />
+          </form>
         </div>
+      </div>
+      <!-- Row end -->
     </div>
-</div>
+  </div>
 <!-- end right Content here -->
 {% endblock %}

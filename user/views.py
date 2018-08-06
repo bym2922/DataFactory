@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 
+from math import ceil
 from .forms import UserForm
 from .models import User
 from .helper import login_required
@@ -43,7 +44,18 @@ def register(request):
 
 @login_required
 def permission_assignment(request):
-    return render(request, 'permission_assignment.html')
+    page = int(request.GET.get('page', 1))  # 页码
+
+    total = User.objects.count()  # 人员总数
+    per_page = 15  # 每页人员数
+    pages = ceil(total / per_page)  # 总页数
+
+    start = (page - 1) * per_page
+    end = start + per_page
+
+    user_list = User.objects.all().order_by('-id')[start:end]
+    print(len)
+    return render(request, 'permission_assignment.html', {'user_list': user_list, 'pages': range(pages), 'len': total})
 
 
 @login_required

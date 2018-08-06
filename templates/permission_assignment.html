@@ -46,58 +46,56 @@
                                     <th class="table-check">
                                         <input type="checkbox" id="selectAll" />
                                     </th>
-                                    <th class="table-id">ID</th>
-                                    <th class="table-title">角色名</th>
-                                    <th class="table-type">现拥有权限</th>
-                                    <th class="table-author am-hide-sm-only">具体描述</th>
-
+{#                                    <th class="table-id">ID</th>#}
+                                    <th class="table-title">用户名</th>
+                                    <th class="table-type">拥有权限</th>
+                                    <th class="table-author am-hide-sm-only">所在岗位</th>
+                                    <th class="table-set">所属部门</th>
                                     <th class="table-set">操作</th>
                                 </tr>
                             </thead>
                             <tbody id="listTable">
                                 <tr id="trObj">
-                                    <td>
-                                        <input type="checkbox" name="item" />
-                                    </td>
-                                    <td>1</td>
-                                    <td>总经理</td>
-                                    <td>二级权限</td>
-                                    <td class="am-hide-sm-only">拥有至高无上的权利</td>
-                                    <td>
-                                        <div class="am-btn-toolbar">
-                                            <div class="am-btn-group am-btn-group-xs">
-                                                <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="dell(this)" value="confirm">
-                                                    删除</button>
-                                                <button class="am-btn am-btn-default am-btn-xs am-text-secondary editor " onclick="modify(this)">
-                                                    修改</button>
+                                    {% for i in user_list %}
+                                        <tr>
+                                            <td><input type="checkbox" name="ids"/></td>
+                                            <td>{{ i.username }}</td>
+                                            <td>{{ i.power }}</td>
+                                            <td>{{ i.job }}</td>
+                                            <td>{{ i.dept }}</td>
+                                            <td>
+                                                <div class="am-btn-toolbar">
+                                                    <div class="am-btn-group am-btn-group-xs">
+                                                        <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="dell(this)" value="confirm">
+                                                            删除</button>
+                                                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary editor " onclick="modify(this)">
+                                                            修改</button>
 
-                                            </div>
-                                        </div>
-                                    </td>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 </tr>
                             </tbody>
                         </table>
                         <div class="am-cf">
-                            共
-                            <span id="arrLength"> 1 </span> 条记录
-                            <div class="am-fr">
-                                <ul class="am-pagination">
-                                    <li class="am-disabled">
-                                        <a href="#">«</a>
-                                    </li>
-                                    <li class="am-active">
-                                        <a href="#">1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">3</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <hr />
+                      共 {{ len }} 条记录
+                      <div class="am-fr">
+                        <ul class="am-pagination">
+                          <li class="am-disabled">
+                            <a href="#">«</a>
+                          </li>
+                            {% for n in pages %}
+                                <li><a href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+                            {% endfor %}
+                          <li>
+                            <a href="#">»</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                <hr />
                     </form>
                 </div>
 

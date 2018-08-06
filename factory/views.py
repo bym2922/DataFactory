@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest,HttpResponse
+from math import ceil
 from django.core import serializers
 from .forms import FileForm
 from .models import File
@@ -20,25 +21,34 @@ def index(request):
     return render(request, "index.html", {'data': data})
 
 
-# @login_required
+@login_required
 def table_basic(request):
-    file_list = File.objects.all()
-    return render(request, "table_basic.html", {'file_list': file_list})
+    page = int(request.GET.get('page', 1))  # 页码
+
+    total = File.objects.count()  # 文件总数
+    per_page = 15                   # 每页文件数
+    pages = ceil(total / per_page)  # 总页数
+
+    start = (page - 1) * per_page
+    end = start + per_page
+
+    file_list = File.objects.all().order_by('-id')[start:end]
+    print(len)
+    return render(request, "table_basic.html", {'file_list': file_list, 'len': total, 'pages': range(pages)})
 
 
 # @login_required
-def chart_columnar(request, fname):
-    # data = clear_data(fname)
+def chart_columnar(request):
+    fname = request.GET.get('fname')
     data = get_data(fname)
     # return render(request, "chart_columnar.html", {'data': data})
     return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
 # @login_required
-def chart_line(request, fname):
+def chart_line(request):
+    fname = request.GET.get('fname')
     data = get_data(fname)
-    # print(type(data))
-    # print(data, '==========')
     # hearder = {
     #     'Access_Control_Allow_Credentials': 'true',
     #     'Access_Control_Allow_Origin': 'http://192.168.1.177'
@@ -52,35 +62,45 @@ def chart_line(request, fname):
 
 
 # @login_required
-def chart_pie(request, fname):
-    # data = clear_data(fname)
+def chart_pie(request):
+    fname = request.GET.get('fname')
     data = get_data(fname)
     return render(request, "chart_pie.html", {'data': data})
     # return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
 # @login_required
-def chart_scatter(request, fname):
-    # data = clear_data(fname)
+def chart_scatter(request):
+    fname = request.GET.get('fname')
     data = get_data(fname)
     return render(request, "chart_scatter.html", {'data': data})
     # return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
 @login_required
-def table_cmplete(request, fname):
+def table_cmplete(request):
+    fname = request.GET.get('fname')
+    page = int(request.GET.get('page', 1))  # 页码
+    per_page = 15
     request.session['fname'] = fname
-    # data = get_data(fname)
     data = clear_data(fname)
+    len = data.__len__()
+    pages = ceil(len / per_page)  # 总页数
+
+    start = (page - 1) * per_page
+    end = start + per_page
+    if end >= len:
+        end = len
     a = data.index.tolist()
     b = []
     data1 = dict()
-    for i in a:
+    for i in range(start, end):
         b.append(data.iloc[i].values.tolist())
     for i, j in zip(a, b):
-        data1.update({str(i): j})
+        data1.update({str(i+1): j})
+
     data2 = {'xxx': data.columns.tolist()}
-    return render(request, "table_complete.html", {'data': data1, 'data2': data2})
+    return render(request, "table_complete.html", {'data': data1, 'data2': data2, 'pages': range(pages), 'fname': fname, 'len': len})
 
 
 @login_required
@@ -130,12 +150,17 @@ def file_upload(request):
     else:
         return render(request, "file_upload.html")
 
+#
+# def get_data(request):
+#     fname = request.GET.get('fname')
+#     data = get_data(fname)
+#     return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+
 
 # 读取表格数据, 按行获取
 def get_data(fname):
     f = File.objects.get(fname=fname).fpath
     if f:
-        # data = pd.read_excel(f)
         data = xlrd.open_workbook(f, formatting_info=True)
         tblTDLYMJANQSXZB = data.sheets()[0]
         # 找到有几列几列
@@ -152,8 +177,8 @@ def get_data(fname):
                 s = tblTDLYMJANQSXZB.cell(rowindex, colindex).value
                 dic[arr[colindex]] = s
             totalArray.append(dic)
-        a = json.dumps(totalArray, ensure_ascii=False)
-        print(a)
+        # a = json.dumps(totalArray, ensure_ascii=False)
+        # print(a)
         # print(totalArray)
     return totalArray
 
