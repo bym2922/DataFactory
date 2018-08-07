@@ -30,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for i in file_list %}
+                {% for i in data.file_list %}
                     <tr>
                         <td><input type="checkbox" name="ids"/></td>
                         <td><a href="/table_complete/?fname={{ i.fname }}&page=1">{{ i.fname }}</a></td>
@@ -55,13 +55,13 @@
                 </tbody>
             </table>
                     <div class="am-cf">
-                      共 {{ len }} 条记录
+                      共 {{ data.total }} 条记录
                       <div class="am-fr">
                         <ul class="am-pagination">
                           <li class="am-disabled">
                             <a href="#">«</a>
                           </li>
-                            {% for n in pages %}
+                            {% for n in data.pages %}
                                 <li><a href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
                             {% endfor %}
                           <li>

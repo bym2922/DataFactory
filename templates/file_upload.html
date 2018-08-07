@@ -19,10 +19,10 @@
         <div class="upload_File">
             <div class="file_text">
                 <form method="post"  enctype="multipart/form-data" action=''>
-                    <input id="file" type="file" name="file" value="点击上传文件"></br></br>
+                    <label class="uploadingSpe" for="multiple-file"><a>点击上传文件</a></label>
+                    <input type="file" multiple="" id="multiple-file" name="file" style="display: none">
                     <input type="submit" value="提交">
                 </form>
-{#                <a href="#">点击上传文件</a>#}
                 <p>仅支持Excel与CSV文件，单个文件最大为10M，excel文件只识别第一个sheet文件</p>
             </div>
         </div>

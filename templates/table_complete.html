@@ -46,13 +46,13 @@
                     <input type="checkbox" id="selectAll"/>
                 </th>
                 <th class="table-id">ID</th>
-                    {% for key,value in data2.items %}
+                    {% for key,value in data.data2.items %}
                         {% for i in value %}
                             <th class="table-set">{{ i }}</th>
                         {% endfor %}
                     {% endfor %}
 
-                    {% for key,value in data.items %}
+                    {% for key,value in data.data.items %}
                         <tr>
                           <td>
                               <input type="checkbox" name="ids"/>
@@ -67,14 +67,14 @@
               </thead>
             </table>
             <div class="am-cf">
-              共 {{ len }} 条记录
+              共 {{ data.len }} 条记录
               <div class="am-fr">
                 <ul class="am-pagination">
                   <li class="am-disabled">
                     <a href="#">«</a>
                   </li>
-                    {% for n in pages %}
-                        <li><a href="?fname={{ fname }}&page={{forloop.counter}}">{{forloop.counter}}</a></li>
+                    {% for n in data.pages %}
+                        <li><a href="?fname={{ data.fname }}&page={{forloop.counter}}">{{forloop.counter}}</a></li>
                     {% endfor %}
                   <li>
                     <a href="#">»</a>
@@ -90,6 +90,7 @@
       <!-- Row end -->
     </div>
   </div>
+</div>
 </div>
 {% endblock %}
 <!-- end right Content here -->
