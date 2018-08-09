@@ -22,6 +22,14 @@
 	                    <h4 class="text-uppercase font-bold m-b-0">Sign In</h4>
 	                </div>
                     <div class="panel-body">
+                        {% if error %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ error }}
+                        </div>
+                        {% endif %}
                         <form class="am-form"  method="POST" action="">
                             <div class="am-g">
                                 <div class="am-form-group">
@@ -46,6 +54,10 @@
 
                                 <div class="am-form-group">
 							      <input type="text" class="am-radius"  placeholder="Phone" name="phone">
+							    </div>
+
+                                <div class="am-form-group">
+							      <input type="email" class="am-radius"  placeholder="Email" name="email">
 							    </div>
 
                                 <div class="am-form-group ">

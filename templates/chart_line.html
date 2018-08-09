@@ -1,61 +1,16 @@
 {% extends 'base1.html' %}
 
-
 {% block page_title %}
 <h4 class="page-title">折线图</h4>
 {% endblock %}
 
-{#{% block chart %}#}
-{##}
-{#{% endblock %}#}
-
-<!-- ============================================================== -->
-<!-- Start right Content here -->
 {% block content %}
-<div class="content-page">
-    <!-- Start content -->
-    <div class="content">
-        <div class="am-g">
-            <div class="am-u-md-6">
-                <!-- 折线图堆叠 -->
-                <div class="card-box">
-                    <div id="Stack" style="width: 100%;height: 250px;"></div>
-                </div>
-            </div>
-
-            <div class="am-u-md-6">
-                <!-- 堆叠区域图  -->
-                <div class="card-box">
-                    <div id="area" style="width: 100%;height: 250px;"></div>
+        <div class="content-page">
+        <!-- Start content -->
+            <div class="content">
+                <div class="am-g">
+                    <div id="main" style="width: 100% ; height: 800px;"></div>
                 </div>
             </div>
         </div>
-
-        <div class="am-g">
-            <div class="am-u-md-6">
-                <!-- Step Line -->
-                <div class="card-box">
-                    <div id="step" style="width: 100%;height: 250px;"></div>
-                </div>
-            </div>
-
-            <div class="am-u-md-6">
-                <!-- 大数据面积图  -->
-                <div class="card-box">
-                    <div id="shuju" style="width: 100%;height: 250px;"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="am-g">
-            <div class="am-u-md-12">
-                <!-- 动态数据+时间坐标轴 -->
-                <div class="card-box">
-                    <div id="trends" style="width: 100%;height: 300px;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
-<!-- end right Content here -->

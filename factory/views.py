@@ -15,10 +15,7 @@ import pandas as pd
 
 
 def index(request):
-    fname = File.objects.get(fname='同仁堂.xlsx').fname
-    # data = clear_data(fname)
-    data = get_data(fname)
-    return render(request, "index.html", {'data': data})
+    return render(request, "index.html")
 
 
 @login_required
@@ -41,38 +38,31 @@ def table_basic(request):
             }
     return render(request, "table_basic.html", {'data': data})
 
-
-def chart_line(request):
+@login_required
+def data(request):
     fname = request.GET.get('fname')
-    # data = get_data(fname)
-    # data = get_data1(fname)
-    data = get_data2(fname)
-    # # return render(request, "chart_line.html", {'data': data})
+    data = get_data(fname)
     return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
+@login_required
+def chart_line(request):
+    return render(request, "chart_line.html")
+
+
+@login_required
 def chart_columnar(request):
-    fname = request.GET.get('fname')
-    # data = get_data(fname)
-    data = get_data1(fname)
-    return render(request, "chart_columnar.html", {'data': data})
-    # return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+    return render(request, "chart_columnar.html")
 
 
+@login_required
 def chart_pie(request):
-    fname = request.GET.get('fname')
-    # data = get_data(fname)
-    data = get_data1(fname)
-    return render(request, "chart_pie.html", {'data': data})
-    # return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+    return render(request, "chart_pie.html")
 
 
+@login_required
 def chart_scatter(request):
-    fname = request.GET.get('fname')
-    # data = get_data(fname)
-    data = get_data1(fname)
-    return render(request, "chart_scatter.html", {'data': data})
-    # return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+    return render(request, "chart_scatter.html")
 
 
 @login_required
@@ -120,7 +110,6 @@ def file_upload(request):
             if f1:
                 f1.delete()
             print(file, fname)
-            # filename = fname.split(".")[0]
             fileext = fname.split(".")[1]
             with open(os.path.join('files', fname), 'w', encoding="utf-8") as f:
                 if fileext == "xlsx" or fileext == "xls" or fileext == "csv":
@@ -164,7 +153,6 @@ def get_data1(fname):
         data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
     print(data1)
     return data1
-    # return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
 def get_data2(fname):
@@ -191,19 +179,27 @@ def get_data(fname):
         nrows = tblTDLYMJANQSXZB.nrows  # 行数
         ncols = tblTDLYMJANQSXZB.ncols  # 列数
         print(nrows, ncols)
-        totalArray = []
+        # totalArray = []
         arr = []
         for i in range(0, ncols):
             arr.append(tblTDLYMJANQSXZB.cell(0, i).value)
+        dic = {}
         for rowindex in range(1, nrows):
-            dic = {}
+            crr = []
+            # dic = {}
+            # for colindex in range(0, ncols):
+            #     s = tblTDLYMJANQSXZB.cell(rowindex, colindex).value
+            #     dic[arr[colindex]] = s
+            # totalArray.append(dic)
             for colindex in range(0, ncols):
                 s = tblTDLYMJANQSXZB.cell(rowindex, colindex).value
-                dic[arr[colindex]] = s
-            totalArray.append(dic)
-        # a = json.dumps(totalArray, ensure_ascii=False)
-        # print(a)
-        # print(totalArray)
+                crr.append(s)
+                dic[rowindex] = crr
+        print(dic)
+        totalArray = {
+            "name": arr,
+            "data": dic
+        }
     return totalArray
 
 

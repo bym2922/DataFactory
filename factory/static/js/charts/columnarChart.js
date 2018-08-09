@@ -1,321 +1,198 @@
-/*----------------------柱状图-----------------------*/
-//坐标轴刻度与标签对齐
-(function(){
-	
-var columnar1 = echarts.init(document.getElementById("columnar1"));
-
-option = {
-	
-	title: {
-		text: "柱状图",
-		x:'left'
-	},
-	
-    color: ['#3398DB'],
-    tooltip : {
-        trigger: 'axis',
-        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-        }
-    },
-    toolbox: {
-        feature: {
-            saveAsImage: {}
-        }
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis : [
-        {
-            type : 'category',
-            data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            axisTick: {
-                alignWithLabel: true
-            }
-        }
-    ],
-    yAxis : [
-        {
-            type : 'value'
-        }
-    ],
-    series : [
-        {
-            name:'直接访问',
-            type:'bar',
-            barWidth: '60%',
-            data:[10, 52, 200, 334, 390, 330, 220]
-        }
-    ]
-};
-
-columnar1.setOption(option);
-})();
-
-
-
-//堆叠条形图
-(function(){
-
-var columnar2 = echarts.init(document.getElementById("columnar2"));
-
-option = {
-	
-	title : {
-		text: "堆叠条形图",
-		x:'left'
-	},
-	
-    tooltip : {
-        trigger: 'axis',
-        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-        }
-    },
-    legend: {
-        data: ['直接访问', '邮件营销','联盟广告','视频广告','搜索引擎'],
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis:  {
-        type: 'value'
-    },
-    yAxis: {
-        type: 'category',
-        data: ['周一','周二','周三','周四','周五','周六','周日']
-    },
-    series: [
-        {
-            name: '直接访问',
-            type: 'bar',
-            stack: '总量',
-            label: {
-                normal: {
-                    show: true,
-                    position: 'insideRight'
-                }
-            },
-            data: [320, 302, 301, 334, 390, 330, 320]
+var myChart, option;
+$(function () {
+    myChart = echarts.init(document.getElementById('main'));
+    option = {
+        title: {
+            text: '工厂销售情况',
+            subtext: ''
         },
-        {
-            name: '邮件营销',
-            type: 'bar',
-            stack: '总量',
-            label: {
-                normal: {
-                    show: true,
-                    position: 'insideRight'
-                }
-            },
-            data: [120, 132, 101, 134, 90, 230, 210]
+        tooltip: {
+            trigger: 'axis'
         },
-        {
-            name: '联盟广告',
-            type: 'bar',
-            stack: '总量',
-            label: {
-                normal: {
-                    show: true,
-                    position: 'insideRight'
-                }
-            },
-            data: [220, 182, 191, 234, 290, 330, 310]
+        legend: {
+            data: []
         },
-        {
-            name: '视频广告',
-            type: 'bar',
-            stack: '总量',
-            label: {
-                normal: {
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {
+                    show: true
+                },
+                dataView: {
                     show: true,
-                    position: 'insideRight'
-                }
-            },
-            data: [150, 212, 201, 154, 190, 330, 410]
-        },
-        {
-            name: '搜索引擎',
-            type: 'bar',
-            stack: '总量',
-            label: {
-                normal: {
+                    readOnly: true
+                },
+                magicType: {
                     show: true,
-                    position: 'insideRight'
-                }
-            },
-            data: [820, 832, 901, 934, 1290, 1330, 1320]
-        }
-    ]
-};
-
-columnar2.setOption(option);
-})();
-
-
-//正负条形图
-(function(){
-	
-var columnar3 = echarts.init(document.getElementById("columnar3"));
-
-option = {
-	
-	title : {
-		text: "正负条形图",
-		x:'left'
-	},
-	
-    tooltip : {
-        trigger: 'axis',
-        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-        }
-    },
-    legend: {
-        data:['利润', '支出', '收入']
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis : [
-        {
-            type : 'value'
-        }
-    ],
-    yAxis : [
-        {
-            type : 'category',
-            axisTick : {show: false},
-            data : ['周一','周二','周三','周四','周五','周六','周日']
-        }
-    ],
-    series : [
-        {
-            name:'利润',
-            type:'bar',
-            label: {
-                normal: {
-                    show: true,
-                    position: 'inside'
-                }
-            },
-            data:[200, 170, 240, 244, 200, 220, 210]
-        },
-        {
-            name:'收入',
-            type:'bar',
-            stack: '总量',
-            label: {
-                normal: {
+                    type: ['line', 'bar', 'stack', 'tiled']
+                },
+                restore: {
+                    show: true
+                },
+                saveAsImage: {
                     show: true
                 }
-            },
-            data:[320, 302, 341, 374, 390, 450, 420]
+            }
         },
-        {
-            name:'支出',
-            type:'bar',
-            stack: '总量',
-            label: {
-                normal: {
-                    show: true,
-                    position: 'left'
-                }
-            },
-            data:[-120, -132, -101, -134, -190, -230, -210]
-        }
-    ]
-};
-
-
-columnar3.setOption(option);
-})();
-
-
-//折柱混合
-(function(){
-	
-var columnar4 = echarts.init(document.getElementById("columnar4"));
-
-
-option = {
-	
-	title : {
-		text: "折柱混合",
-		x: "left"
-	},
-	
-    tooltip: {
-        trigger: 'axis'
-    },
-    toolbox: {
-        feature: {
-            saveAsImage: {show: true}
-        }
-    },
-    legend: {
-        data:['蒸发量','降水量','平均温度']
-    },
-    xAxis: [
-        {
+        optionToContent: function (opt) {
+            var axisData = opt.xAxis[0].data;
+            var series = opt.series;
+            var table =
+                '<table style="width:100%;text-align:center" cellspacing="0" cellpadding="0" class="table_Qushi"><tbody><tr>' +
+                '<td>时间</td>' +
+                '<td>' + series[0].name + '</td>' +
+                '<td>' + series[1].name + '</td>' +
+                '<td>' + series[2].name + '</td>' +
+                '<td>' + series[3].name + '</td>' +
+                '<td>' + series[4].name + '</td>' +
+                '</tr>';
+            for (var i = 0, l = axisData.length; i < l; i++) {
+                table += '<tr>' +
+                    '<td>' + axisData[i] + '</td>' +
+                    '<td>' + series[0].data[i] + '</td>' +
+                    '<td>' + series[1].data[i] + '</td>' +
+                    '<td>' + series[2].data[i] + '</td>' +
+                    '<td>' + series[3].data[i] + '</td>' +
+                    '<td>' + series[4].data[i] + '</td>' +
+                    '</tr>';
+            }
+            table += '</tbody></table>';
+            return table;
+        },
+        dataZoom: {
+            id: 'dataZoomX',
+            show: true, 
+            backgroundColor: "rgba(47,69,84,0)", 
+            type: 'slider',
+            fillerColor: "rgba(167,183,204,0.4)", 
+            borderColor: "#ddd", 
+            filterMode: 'filter', 
+            start: 0, 
+            end: 100,
+            startValue: 10,
+            endValue: 100,
+            orient: "horizontal", 
+            zoomLock: false, 
+            throttle: 100, 
+            zoomOnMouseWheel: true,
+            moveOnMouseMove: true, 
+            left: "center", 
+            top: "bottom", 
+            right: "auto",
+            bottom: "auto",
+        },
+        
+        xAxis: [{
             type: 'category',
-            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
-        }
-    ],
-    yAxis: [
-        {
-            type: 'value',
-            name: '水量',
-            min: 0,
-            max: 250,
-            interval: 50,
+            boundaryGap: false,
+            data: [],
             axisLabel: {
-                formatter: '{value} ml'
+                interval: 0, //横轴信息全部显示
+                rotate: 30, //60度角倾斜显示
+                formatter: function (val) {
+                    //                                        return val.split("").join("\n"); //横轴信息文字竖直显示
+                    return val;
+                },
+                textStyle: {
+                    color: '#000',
+                    align: 'center',
+                    fontWeight: 'bold'
+                }
             }
+        }],
+        yAxis: [],
+        series: []
+        //                myChart = require('echarts').init(document.getElementById('main'));
+    };
+    myChart.showLoading({
+        //                    text : '数据获取中',
+        effect: 'whirling'
+    });
+    getData();
+});
+//请求json
+var fields,
+    itemsMap,
+    seriesItem,
+    yAxis_arr = [];
+
+function getData() {
+    $.ajax({
+        // url: 'http://192.168.1.177:8000/data/?fname=%E4%B9%A6%E6%AC%BE%E4%BF%A1%E6%81%AF.xls',
+        url: 'http://192.168.1.177:8000/data/'+window.location.search,
+        dataType: 'json',
+        async: false,
+        type: 'get',
+        success: function (json) {
+            //console.log(json.data);  
+            fields = json.name;
+            itemsMap = json.data;
+
+            createEcharts(); //动态创建曲线图
+            myChart.hideLoading();
+            myChart.setOption(option);
         },
-        {
-            type: 'value',
-            name: '温度',
-            min: 0,
-            max: 25,
-            interval: 5,
-            axisLabel: {
-                formatter: '{value} °C'
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+            if (textStatus == 'parsererror') {
+
+                alert('数据为空或者SQL语句错误！');
             }
+            console.log(errorThrown);
         }
-    ],
-    series: [
-        {
-            name:'蒸发量',
-            type:'bar',
-            data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
-        },
-        {
-            name:'降水量',
-            type:'bar',
-            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-        },
-        {
-            name:'平均温度',
-            type:'line',
-            yAxisIndex: 1,
-            data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+    });
+}
+/*
+ * 动态创建曲线图
+ */
+function createEcharts() {
+    //    series                
+    for (var i = 1; i < fields.length; i++) {
+        if (i == 1) {
+            itemStyle = {
+                normal: {
+                    areaStyle: {
+                        type: 'default'
+                    }
+                }
+            };
+        } else {
+            itemStyle = {
+                normal: {
+                    color: '#70bf41'
+
+                }
+            };
         }
-    ]
-};
+        option.legend.data.push(fields[i])
+        //    legend
+        seriesItem = {};
+        seriesItem.name = fields[i];
+        seriesItem.type = 'bar';
+        seriesItem.smooth = false;
+        seriesItem.yAxisIndex = i - 1;
+        seriesItem.itemStyle = itemStyle;
+        seriesItem.data = [];
+        for (var key in itemsMap) {
+            seriesItem.data.push(itemsMap[key][i]);
+
+        }
 
 
 
-
-columnar4.setOption(option);
-})();
+        //        填充默认显示曲线的数据
+        option.series.push(seriesItem);
+        //        option.series[0].type      = 'line';
+        //        option.series[1].type      = 'bar';
+        // yAxis    
+        var yAxis_obj = {};
+        yAxis_obj.type = 'value';
+        // yAxis_obj.name = fields[i];
+        yAxis_obj.show = true;
+        yAxis_arr.push(yAxis_obj);
+    }
+    for (var j in itemsMap) {
+        option.xAxis[0].data.push(itemsMap[j][0]);
+    }
+    option.yAxis = yAxis_arr;
+}
