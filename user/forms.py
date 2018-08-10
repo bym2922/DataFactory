@@ -7,7 +7,7 @@ from .models import User
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'password', 'dept', 'job', 'email', 'phone', 'power', 'date']
+        fields = ['username', 'password', 'dept', 'job', 'email', 'phone']
 
     password2 = CharField(max_length=128)
 

@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="../static/css/amazeui.css" />
 		<link rel="stylesheet" href="../static/css/component.css" />
 		<link rel="stylesheet" href="../static/css/page/form.css" />
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	</head>
 	<body>
 		<div class="account-pages">
@@ -16,13 +17,23 @@
 				<div class="text-center">
 	                <a href="/index" class="logo"><span>Admin<span>to</span></span></a>
 	            </div>
-	            
 	            <div class="m-t-40 card-box">
-	            	<div class="text-center">
+                    <div class="text-center">
 	                    <h4 class="text-uppercase font-bold m-b-0">Sign In</h4>
 	                </div>
+
 	                <div class="panel-body">
 	                	<form class="am-form" method="POST" action="" >
+                        <div class="container">
+                            {% if error %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    {{ error.error }}
+                                </div>
+                            {% endif %}
+                        </div>
 	                		<div class="am-g">
 	                			<div class="am-form-group">
 							      <input type="text" class="am-radius"  placeholder="Username" name="username">
@@ -54,5 +65,7 @@
 	            </div>
 			</div>
 		</div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</body>
 </html>

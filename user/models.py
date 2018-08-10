@@ -1,5 +1,7 @@
 from django.db import models
-import time
+import django.utils.timezone as timezone
+# from datetime import datetime
+# import time
 
 # Create your models here.
 
@@ -13,4 +15,4 @@ class User(models.Model):
     email = models.EmailField(max_length=64)
     phone = models.CharField(max_length=64)
     power = models.IntegerField(default=1)
-    date = models.DateField(default=time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    hirdate = models.DateField(auto_now_add=True)

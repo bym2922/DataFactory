@@ -537,37 +537,47 @@ model</ColNames>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="121" parent="19" name="phone">
+    <column id="121" parent="19" name="dept">
       <Position>4</Position>
+      <DataType>varchar(128)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="122" parent="19" name="job">
+      <Position>5</Position>
+      <DataType>varchar(128)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="123" parent="19" name="email">
+      <Position>6</Position>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="122" parent="19" name="power">
-      <Position>5</Position>
+    <column id="124" parent="19" name="phone">
+      <Position>7</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="125" parent="19" name="power">
+      <Position>8</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="123" parent="19" name="dept">
-      <Position>6</Position>
-      <DataType>varchar(128)|0s</DataType>
+    <column id="126" parent="19" name="hirdate">
+      <Position>9</Position>
+      <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="124" parent="19" name="job">
-      <Position>7</Position>
-      <DataType>varchar(128)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <index id="125" parent="19" name="sqlite_autoindex_user_user_1">
+    <index id="127" parent="19" name="sqlite_autoindex_user_user_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>username</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <key id="126" parent="19">
+    <key id="128" parent="19">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="127" parent="19">
+    <key id="129" parent="19">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_user_user_1</UnderlyingIndexName>
     </key>

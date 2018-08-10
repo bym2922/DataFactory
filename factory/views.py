@@ -162,7 +162,6 @@ def get_data2(fname):
     for i in range(len(data.columns)):
         data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
     print(data1)
-    # print(data)
     dd = {'Name': list(data),
           'Data': data1,
           }
@@ -179,7 +178,6 @@ def get_data(fname):
         nrows = tblTDLYMJANQSXZB.nrows  # 行数
         ncols = tblTDLYMJANQSXZB.ncols  # 列数
         print(nrows, ncols)
-        # totalArray = []
         arr = []
         for i in range(0, ncols):
             arr.append(tblTDLYMJANQSXZB.cell(0, i).value)

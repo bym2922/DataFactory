@@ -5,7 +5,6 @@ from math import ceil
 from .forms import UserForm
 from .models import User
 from .helper import login_required
-import time
 # Create your views here.
 
 
@@ -16,17 +15,15 @@ def login(request):
         print(username, password)
         try:
             user = User.objects.get(username=username)
-            # 权限
         except User.DoesNotExist:
-            print("用户不存在")
-            return redirect('/login')
+            return redirect('/login', {'error': "用户不存在"})
         if check_password(password, user.password):
             request.session['uid'] = user.id
             request.session['username'] = user.username
             request.session['power'] = user.power
             return redirect('/index')
         else:
-            return redirect('/login')
+            return redirect('/login', {'error': '密码错误'})
     return render(request, 'login.html')
 
 
@@ -38,13 +35,11 @@ def register(request):
             print('============')
             user = form.save(commit=False)
             user.password = make_password(user.password)
-
             user.save()
             return redirect('/login')
         else:
             print(form.errors)
             return redirect('/register', {"error": form.errors})
-    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
     return render(request, 'register.html')
 
 
@@ -77,6 +72,34 @@ def logout(request):
 def page_recoverpw(request):
 
     return render(request, 'page_recoverpw.html')
+
+
+@login_required
+def change_pswd(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        oldpswd = request.POST.get('password')
+        newpswd = request.POST.get('password1')
+        renewpswd = request.POST.get('password2')
+        print(username, oldpswd, newpswd, renewpswd)
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return redirect('/change_pswd', {'error': "用户信息不存在"})
+        if newpswd == renewpswd:
+            if check_password(oldpswd, user.password):
+                user.password = make_password(newpswd)
+                user.save()
+                # request.session.flush()
+                print('密码已修改，请您重新登录！')
+                return redirect('/logout', {'error': '密码已修改，请您重新登录！'})
+            else:
+                print('原密码输入错误')
+                return redirect('/change_pswd', {'error': '原密码输入错误'})
+        else:
+            print('两次密码输入不一致！')
+            return redirect('/change_pswd', {'error': '两次密码输入不一致！'})
+    return render(request, 'change_pswd.html')
 
 
 @login_required
