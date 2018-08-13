@@ -70,15 +70,12 @@
                                             <td>{{ i.phone }}</td>
                                             <td>{{ i.hirdate }}</td>
                                             <td>
-                                                <div class="am-btn-toolbar">
-                                                    <div class="am-btn-group am-btn-group-xs">
-                                                        <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="dell(this)" value="confirm">
-                                                            删除</button>
-{#                                                        <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary editor " onclick="modify(this)">#}
-{#                                                            修改</button>#}
-
-                                                    </div>
-                                                </div>
+{#                                                <a href="?username={{ i.username }}"#}
+{#                                                   class="am-btn am-btn-default am-btn-xs am-text-danger"#}
+{#                                                   onclick="confirm_del()">删除#}
+{#                                                </a>#}
+                                                <input class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="confirm_del(this)" type="button" value="删除">
+                                                <input type="hidden" value="{{ i.username }}" id="uname">
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -104,10 +101,33 @@
                 <hr />
                     </form>
                 </div>
-
             </div>
             <!-- Row end -->
         </div>
+    </div>
+    <div class="box" id="box1">
+        <h4>是否确定删除该用户</h4>
+        <h4 id="get_username"></h4>
+        <form>
+            <table class="am-table am-table-bordered am-table-radius">
+
+                <tr>
+                    <td colspan="2">
+                        <div class="confirm">
+                            <button type="submit" id="confirm1">
+                                <a id="get_username1" href="">确定</a>
+                            </button>
+                        </div>
+
+                        <div class="cancel" id="cancel1">
+                            <button type="button">
+                                <a href="#">取消</a>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 </div>
 {% endblock %}

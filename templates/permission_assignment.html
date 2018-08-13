@@ -64,15 +64,16 @@
                                             <td>{{ i.job }}</td>
                                             <td>{{ i.dept }}</td>
                                             <td>
-                                                <div class="am-btn-toolbar">
-                                                    <div class="am-btn-group am-btn-group-xs">
+{#                                                <div class="am-btn-toolbar">#}
+{#                                                    <div class="am-btn-group am-btn-group-xs">#}
 {#                                                        <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="dell(this)" value="confirm">#}
 {#                                                            删除</button>#}
-                                                        <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary editor " onclick="modify(this)">
-                                                            修改</button>
+{#                                                        <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary editor " onclick="modify(this)">#}
+{#                                                            修改</button>#}
+                                                <input class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="modify(this)" type="button" value="修改">
 
-                                                    </div>
-                                                </div>
+{#                                                    </div>#}
+{#                                                </div>#}
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -135,20 +136,18 @@
                 <tr>
                     <th>具体描述</th>
                     <td>
-                        <textarea class="text_description" id="text_description">
+{#                        <textarea class="text_description" id="text_description">#}
+{##}
+{#                        </textarea>#}
+                        <select id="permission1" class="permission">
 
-                        </textarea>
+                        </select>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <div class="confirm">
-                            <button type="submit" id="confirm" onclick="addList()">
-                                <a href="#">确定</a>
-                            </button>
-                        </div>
                         <div class="update">
-                            <button type="button" id="update" onclick="update()">更新</button>
+                            <button type="button" onclick="update()"><a href="/update_user">确定</a></button>
                         </div>
                         <div class="cancel" id="cancel">
                             <button type="button">
@@ -160,6 +159,7 @@
             </table>
         </form>
     </div>
+
     <div id="cover">
     </div>
 </div>

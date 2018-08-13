@@ -1,0 +1,137 @@
+#box{
+    border: 1px solid #ccc;
+    width: 500px;
+    height: 320px;
+    display: none;
+    z-index: 10000;
+    position: fixed;
+    background-color:#ffffff;
+    top: 35%;
+    left: 40%;
+    border-radius: 10px;
+    text-align: center;
+}
+#box table,#box tr,#box th,#box td{
+    border:none;
+    text-align: center;
+}
+#box h4{
+    padding: 5px 0px 10px 0px;
+    vertical-align: middle;
+    border-bottom: 1px solid #ccc;
+}
+
+#box1{
+    border: 1px solid #ccc;
+    width: 550px;
+    height: 200px;
+    display: none;
+    z-index: 10000;
+    position: fixed;
+    background-color:#ffffff;
+    top: 35%;
+    left: 40%;
+    text-align: center;
+    border-radius: 10px;
+}
+#box1 h4{
+    margin-top: 50px;
+    vertical-align: middle;
+}
+#box1 table{
+    border:none;
+}
+
+#cover{
+    position: fixed;
+    z-index: 9999;
+    top: 0px;
+    left: 0px;
+    display: none;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background: #000 none repeat scroll 0% 0%;
+}
+
+
+.userName{
+    width: 250px;
+    height: 25px;
+    border-radius: 15px;
+    border: 1px solid;
+    padding-left: 10px;
+}
+
+.user_Box{
+    padding-left: 80px;
+    padding-top: 40px;
+    font-size: 18px;
+}
+
+
+.permission_box{
+    padding-left: 80px;
+    font-size: 18px;
+}
+
+
+.description{
+    padding-left: 80px;
+    padding-top: 20px;
+    font-size: 18px;
+}
+
+
+
+.text_description{
+    height: 140px;
+    width: 250px;
+    border-radius: 15px;
+    border: 1px solid;
+    padding-left: 10px;
+}
+
+.confirm{
+   position: absolute;
+   left: 100px;
+   bottom: 30px;
+   background-color: #1E9FFF;
+   border-color: #1E9FFF;
+}
+
+.cancel{
+    position: absolute;
+    right: 100px;
+    bottom: 30px;
+}
+
+
+.idCard{
+    padding-left: 80px;
+    padding-top: 20px;
+}
+
+
+.idIput{
+    width: 250px;
+    height: 25px;
+    border-radius: 15px;
+    border: 1px solid;
+    padding-left: 10px;
+}
+
+.permission{
+    width: 250px;
+    height: 25px;
+    border-radius: 15px;
+    border: 1px solid;
+    padding-left: 10px;
+}
+
+
+.update{
+    position: absolute;
+    right: 225px;
+    bottom: 29px;
+}

@@ -5,6 +5,7 @@ from math import ceil
 from .forms import UserForm
 from .models import User
 from .helper import login_required
+
 # Create your views here.
 
 
@@ -130,3 +131,30 @@ def user_manage(request):
         'total': total
     }
     return render(request, 'user_manage.html', {'data': data})
+
+
+@login_required
+def delete_user(request):
+    username = request.GET.get('username')
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        print('用户不存在！')
+    user.delete()
+    print('删除成功！')
+    return user_manage(request)
+
+
+@login_required
+def update_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('use')
+        power = request.POST.get('power')
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            print('用户不存在！')
+        user.power = power
+        user.save()
+    return permission_assignment(request)
+
