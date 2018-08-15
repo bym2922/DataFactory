@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+{% block logo %}
+<a href="/file_upload" class="logo">
+    <span class="am-icon-folder">
+        <span>点击导入数据</span>
+    </span>
+    <i class="zmdi zmdi-layers"></i>
+</a>
+{% endblock %}
 
 {% block page_title %}
 <h4 class="page-title">人员管理</h4>
@@ -46,7 +54,6 @@
                                     <th class="table-check">
                                         <input type="checkbox" id="selectAll" />
                                     </th>
-{#                                    <th class="table-id">ID</th>#}
                                     <th class="table-title">用户名</th>
                                     <th class="table-type">拥有权限</th>
                                     <th class="table-author am-hide-sm-only">所在岗位</th>
@@ -70,12 +77,8 @@
                                             <td>{{ i.phone }}</td>
                                             <td>{{ i.hirdate }}</td>
                                             <td>
-{#                                                <a href="?username={{ i.username }}"#}
-{#                                                   class="am-btn am-btn-default am-btn-xs am-text-danger"#}
-{#                                                   onclick="confirm_del()">删除#}
-{#                                                </a>#}
-                                                <input class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="confirm_del(this)" type="button" value="删除">
-                                                <input type="hidden" value="{{ i.username }}" id="uname">
+                                                <input class="am-btn am-btn-default am-btn-xs am-text-secondary"
+                                                       onclick="confirm_del(this)" type="button" value="删除">
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -109,11 +112,10 @@
         <h4>是否确定删除该用户</h4>
         <h4 id="get_username"></h4>
         <form>
-            <table class="am-table am-table-bordered am-table-radius">
-
+            <table class="table table-hover table-bordered">
                 <tr>
                     <td colspan="2">
-                        <div class="confirm">
+                        <div class="confirm" >
                             <button type="submit" id="confirm1">
                                 <a id="get_username1" href="">确定</a>
                             </button>

@@ -112,20 +112,16 @@ function delAll() {
 }
 
 // 修改功能
-
 function modify(obj) {
-    var oId = document.getElementById('idIput');
     var oUser = document.getElementById('userName');
     var oPermission = document.getElementById('permission');
     var oDescription = document.getElementById('permission1');
     var oTr = obj.parentNode.parentNode;
     var aTd = oTr.getElementsByTagName('td');
     rowIndex = obj.parentNode.parentNode.rowIndex;
-    oId.value = aTd[1].innerHTML;
-    oUser.value = aTd[2].innerHTML;
-    oPermission.value = aTd[3].innerHTML;
-    oDescription.value = aTd[4].innerHTML;
-    //alert(i);
+    oUser.value = aTd[1].innerHTML;
+    oPermission.value = aTd[2].innerHTML;
+    oDescription.value = aTd[3].innerHTML;
     $('#box').show();
     $('#cover').show();
     $('#confirm').attr("disabled", false);
@@ -133,34 +129,24 @@ function modify(obj) {
 
 //删除功能（确认删除提示框）
 function confirm_del(obj) {
-    //alert(i);
     $('#box1').show();
     $('#cover').show();
-    var username = document.getElementById('uname').value
-    console.log(username)
     var ouser=document.getElementById("get_username");
-    ouser.innerHTML = username
+    var oTr = obj.parentNode.parentNode;
+    var aTd = oTr.getElementsByTagName('td');
+    ouser.innerHTML = aTd[1].innerHTML;
     get_username1=document.getElementById("get_username1");
-    get_username1.href='/delete_user?username='+username;
+    get_username1.href='/delete_user?username='+aTd[1].innerHTML;
 }
 
 
 
-//更新功能
-function update() {
-    console.log('ok');
-    var oId = document.getElementById('idIput');
+更新功能
+function update(obj) {
     var oUser = document.getElementById('userName');
     var oPermission = document.getElementById('permission');
-    var oDescription = document.getElementById('permission1');
-    var oMytable = document.getElementById('mytable');
-    //alert(rowIndex);
-    //var aTd = rowIndex.cells;
-    console.log(oMytable.rows[rowIndex].cells)
-    oMytable.rows[rowIndex].cells[1].innerHTML = oId.value;
-    oMytable.rows[rowIndex].cells[2].innerHTML = oUser.value;
-    oMytable.rows[rowIndex].cells[3].innerHTML = oPermission.value;
-    oMytable.rows[rowIndex].cells[4].innerHTML = oDescription.value;
+    get_username2=document.getElementById("get_username2");
+    get_username2.href='/update_user?username='+oUser.value+'&power='+oPermission.value;
     $('#box').hide();
     $('#cover').hide();
 }
@@ -169,10 +155,9 @@ function update() {
 $('#permission').change(function(){
     var sValue = $("#permission").val()
     switch(sValue){
-        case "1" : $("#permission1").html("<option>至高无上的权利1</option>").show();break;
-        case "2" : $("#permission1").html("<option>至高无上的权利2</option>").show();break;
-        case "3" : $("#permission1").html("<option>至高无上的权利3</option>").show();break;
-        case "4" : $("#permission1").html("<option>至高无上的权利4</option>").show();break;
+        case "1" : $("#permission1").html("<option selected='selected'>至高无上的权利1</option>").show();break;
+        case "2" : $("#permission1").html("<option selected='selected'>至高无上的权利2</option>").show();break;
+        case "3" : $("#permission1").html("<option selected='selected'>至高无上的权利3</option>").show();break;
         default : alert("erro");
     };
 });

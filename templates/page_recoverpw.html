@@ -36,8 +36,9 @@
 							      <input type="password" class="am-radius"  placeholder="Password" name="password2">
 							    </div>
 
-                                <div class="am-form-group">
-							      <input type="text" class="am-radius"  placeholder="Phone" name="phone">
+                                <div class="am-form-group form-horizontal m-t-20">
+							      <input type="text" class="am-radius"  id="mobile" name="mobile" placeholder="Phone">
+                                  <input type="button" id="forcode" onclick="settime(this)" value="免费获取验证码" class="btn btn-success">
 							    </div>
 
                                 <div class="am-form-group ">
@@ -49,65 +50,20 @@
                 </div>
             </div>
         </div>
-
- </body>
-
-
-<!--发送按钮倒计时代码-->
-{#<script type="text/javascript">#}
-{#var countdown=60;#}
-{#function settime(obj) {#}
-{#    if (countdown == 0) {#}
-{#        obj.removeAttribute("disabled");#}
-{#        obj.value="免费获取验证码";#}
-{#        countdown = 60;#}
-{#        return;#}
-{#    } else {#}
-{#        obj.setAttribute("disabled", true);#}
-{#        obj.value="重新发送(" + countdown + ")";#}
-{#        countdown--;#}
-{#    }#}
-{#setTimeout(function() {#}
-{#    settime(obj) }#}
-{#    ,1000)#}
-{#}#}
-{##}
-{#</script>#}
-
-
 <!--手机号码输入框代码-->
-
-{#<div class="form-group">#}
-{#    <label for="mobile" class="col-lg-2 col-sm-2 control-label">手机号码:</label>#}
-{#    <div class="col-lg-10">#}
-{#        <div class="input-group m-bot15">#}
-{#    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="手机号码">#}
-{#    <span class="input-group-btn">#}
-{#         <input type="button" id="forcode" onclick="settime(this)" value="免费获取验证码" class="btn btn-success">#}
-{#    </span>#}
-{#        </div>#}
-{#    <p class="help-block">请填写绑定手机号</p>#}
-{#    </div>#}
-{#</div>#}
-
-
-<!--向后台通过ajax发送手机号码数据-->
-{#<script>#}
-{#    $('#forcode').click(function () {#}
-{#        $.ajax({#}
-{#            cache:false,#}
-{#            type:"POST",#}
-{#            url:"{% url 'user:forcode' %}",#}
-{#            data:{#}
-{#               csrfmiddlewaretoken:$('[name="csrfmiddlewaretoken"]').val(),#}
-{#               mobile:$("#mobile").val()#}
-{#            },#}
-{#            async:true,#}
-{#            success:function (data) {#}
-{#                alert(data)#}
-{#            }#}
-{#        })#}
-{#    })#}
-{#</script>#}
-
+<div class="form-group">
+    <label for="mobile" class="col-lg-2 col-sm-2 control-label">手机号码:</label>
+    <div class="col-lg-10">
+        <div class="input-group m-bot15">
+    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="手机号码">
+    <span class="input-group-btn">
+         <input type="button" id="forcode" onclick="settime(this)" value="免费获取验证码" class="btn btn-success">
+    </span>
+        </div>
+    <p class="help-block">请填写绑定手机号</p>
+    </div>
+</div>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/page_recoverpw.js"></script>
+ </body>
 </html>

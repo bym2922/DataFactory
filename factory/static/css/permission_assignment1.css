@@ -106,6 +106,12 @@
     bottom: 30px;
 }
 
+.confirm_a{
+    color: #FFFFFF;
+}
+.cancel_a{
+    color: #FFFFFF;
+}
 
 .idCard{
     padding-left: 80px;

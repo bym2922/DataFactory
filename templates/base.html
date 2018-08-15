@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="{% static 'css/component.css' %}" />
     <link rel="stylesheet" href="{% static 'css/permission_assignment1.css' %}" />
 	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
 </head>
 
 <body>
@@ -23,12 +24,14 @@
 	<header class="am-topbar am-topbar-fixed-top">
 
         <div class="am-topbar-left am-hide-sm-only">
-			<a href="/file_upload" class="logo">
-				<span class="am-icon-folder">
-					<span>点击导入数据</span>
-				</span>
-				<i class="zmdi zmdi-layers"></i>
-			</a>
+            {% block logo %}
+{#			<a href="/file_upload" class="logo">#}
+{#				<span class="am-icon-folder">#}
+{#					<span>点击导入数据</span>#}
+{#				</span>#}
+{#				<i class="zmdi zmdi-layers"></i>#}
+{#			</a>#}
+            {% endblock %}
 		</div>
 
 		<div class="contain">

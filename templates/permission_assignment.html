@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+{% block logo %}
+<a href="/file_upload" class="logo">
+    <span class="am-icon-folder">
+        <span>点击导入数据</span>
+    </span>
+    <i class="zmdi zmdi-layers"></i>
+</a>
+{% endblock %}
 
 {% block page_title %}
 <h4 class="page-title">权限管理</h4>
@@ -59,21 +67,13 @@
                                     {% for i in data.user_list %}
                                         <tr>
                                             <td><input type="checkbox" name="ids"/></td>
-                                            <td>{{ i.username }}</td>
-                                            <td>{{ i.power }}</td>
+                                            <td id="puname">{{ i.username }}</td>
+                                            <td id="power">{{ i.power }}</td>
                                             <td>{{ i.job }}</td>
                                             <td>{{ i.dept }}</td>
                                             <td>
-{#                                                <div class="am-btn-toolbar">#}
-{#                                                    <div class="am-btn-group am-btn-group-xs">#}
-{#                                                        <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="dell(this)" value="confirm">#}
-{#                                                            删除</button>#}
-{#                                                        <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary editor " onclick="modify(this)">#}
-{#                                                            修改</button>#}
-                                                <input class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="modify(this)" type="button" value="修改">
-
-{#                                                    </div>#}
-{#                                                </div>#}
+                                                <input class="am-btn am-btn-default am-btn-xs am-text-secondary"
+                                                       onclick="modify(this)" type="button" value="修改">
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -109,49 +109,40 @@
     <div class="box" id="box">
         <h4>修改用户权限</h4>
         <form>
-            <table class="am-table am-table-bordered am-table-radius">
+            <table class="table table-hover table-bordered">
                 <tr>
-                    <th>ID</th>
+                    <th>用户名</th>
                     <td>
-                        <input type="text" class="idIput" id="idIput"  autocomplete="off">
+                        <input type="text" class="userName form-control" id="userName"  autocomplete="off" name="username" readonly>
                     </td>
                 </tr>
                 <tr>
-                    <th>姓名</th>
+                    <th>当前权限</th>
                     <td>
-                        <input type="text" class="userName" id="userName"  autocomplete="off">
-                    </td>
-                </tr>
-                <tr>
-                    <th>权限范围</th>
-                    <td>
-                        <select id="permission" class="permission">
+                        <select id="permission" class="permission form-control">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
-                            <option value="4">4</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <th>具体描述</th>
                     <td>
-{#                        <textarea class="text_description" id="text_description">#}
-{##}
-{#                        </textarea>#}
-                        <select id="permission1" class="permission">
-
+                        <select id="permission1" class="permission form-control">
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
                         <div class="update">
-                            <button type="button" onclick="update()"><a href="/update_user">确定</a></button>
+                            <button type="button" onclick="update(this)" class="btn btn-success">
+                                <a href="" id="get_username2" class="confirm_a">确定</a>
+                            </button>
                         </div>
                         <div class="cancel" id="cancel">
-                            <button type="button">
-                                <a href="#">取消</a>
+                            <button type="button" class="btn btn-info">
+                                <a href="#" class="cancel_a">取消</a>
                             </button>
                         </div>
                     </td>

@@ -71,6 +71,7 @@ def logout(request):
 
 
 def page_recoverpw(request):
+    # if request.method == 'POST':
 
     return render(request, 'page_recoverpw.html')
 
@@ -141,20 +142,22 @@ def delete_user(request):
     except User.DoesNotExist:
         print('用户不存在！')
     user.delete()
+
     print('删除成功！')
     return user_manage(request)
 
 
 @login_required
 def update_user(request):
-    if request.method == 'POST':
-        username = request.POST.get('use')
-        power = request.POST.get('power')
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            print('用户不存在！')
-        user.power = power
-        user.save()
+    username = request.GET.get('username')
+    print(username)
+    power = request.GET.get('power')
+    print(power)
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        print('用户不存在！')
+    user.power = power
+    user.save()
     return permission_assignment(request)
 
