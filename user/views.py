@@ -1,25 +1,28 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 
 from math import ceil
 from .forms import UserForm
 from .models import User
-from .helper import login_required
+from .helper import login_required, randomforcode, send_sms
+import json
 
 # Create your views here.
 
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        phone = request.POST.get('username')
         password = request.POST.get('password')
-        print(username, password)
+        print(phone, password)
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(phone=phone)
         except User.DoesNotExist:
             return redirect('/login', {'error': "用户不存在"})
         if check_password(password, user.password):
+            print(user.phone)
             request.session['uid'] = user.id
+            request.session['phone'] = user.phone
             request.session['username'] = user.username
             request.session['power'] = user.power
             return redirect('/index')
@@ -55,7 +58,7 @@ def permission_assignment(request):
     start = (page - 1) * per_page
     end = start + per_page
 
-    user_list = User.objects.all().order_by('-id')[start:end]
+    user_list = User.objects.all().order_by('-power')[start:end]
     data = {
         'user_list': user_list,
         'pages': range(pages),
@@ -71,21 +74,58 @@ def logout(request):
 
 
 def page_recoverpw(request):
-    # if request.method == 'POST':
-
+    if request.method == 'POST':
+        forcode1 = randomforcode()
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        # phone = request.POST.get('mobile')
+        phone = forcode11(request)
+        forcode = request.POST.get('forcode')
+        print(phone)
+        try:
+            user = User.objects.get(phone=phone)
+        except User.DoesNotExist:
+            print("用户不存在！")
+        text = "您的验证码是:"+str(forcode1)+"。请不要把验证码泄露给其他人。(10分钟内有效)"
+        print(text)
+        # send_sms(text, phone)
+        if password == password2:
+            if forcode == forcode1:
+                user.password = make_password(password)
+                user.save()
+                print('密码已重置！')
+                redirect('/logout')
+            else:
+                print('验证码输入错误！')
+                redirect('/page_recoverpw')
+        else:
+            print("两次密码输入不一致！")
+            redirect('/page_recoverpw')
     return render(request, 'page_recoverpw.html')
 
+
+def forcode11(request):
+    if request.method == 'POST':
+        phone = request.POST.get('mobile')
+        # print(phone)
+        data = {
+            "phone": phone
+        }
+        return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+    else:
+        print('111111111111')
 
 @login_required
 def change_pswd(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        phone = request.POST.get('phone')
         oldpswd = request.POST.get('password')
         newpswd = request.POST.get('password1')
         renewpswd = request.POST.get('password2')
         print(username, oldpswd, newpswd, renewpswd)
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(phone=phone)
         except User.DoesNotExist:
             return redirect('/change_pswd', {'error': "用户信息不存在"})
         if newpswd == renewpswd:
@@ -125,7 +165,7 @@ def user_manage(request):
     start = (page - 1) * per_page
     end = start + per_page
 
-    user_list = User.objects.all().order_by("power")[start:end]
+    user_list = User.objects.all().order_by("-hirdate")[start:end]
     data = {
         'user_list': user_list,
         'pages': range(pages),

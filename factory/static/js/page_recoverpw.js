@@ -3,24 +3,28 @@ $('#forcode').click(function () {
     $.ajax({
         cache:false,
         type:"POST",
-        url:"{% url 'user:forcode' %}",
+        url:"http://192.168.1.177:8000/forcode/",
         data:{
-           csrfmiddlewaretoken:$('[name="csrfmiddlewaretoken"]').val(),
-           mobile:$("#mobile").val()
+           "mobile":$("#mobile").val(),
         },
+        dataType:"json",
         async:true,
         success:function (data) {
             alert(data)
+        },
+        error:function (error) {
+            console.log(error)
         }
     })
 })
+
 
 // 发送按钮倒计时代码
 var countdown=60;
 function settime(obj) {
     if (countdown == 0) {
         obj.removeAttribute("disabled");
-        obj.value="免费获取验证码";
+        obj.value="获取验证码";
         countdown = 60;
         return;
     } else {

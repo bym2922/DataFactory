@@ -37,10 +37,18 @@
 							    </div>
 
                                 <div class="am-form-group form-horizontal m-t-20">
-							      <input type="text" class="am-radius"  id="mobile" name="mobile" placeholder="Phone">
-                                  <input type="button" id="forcode" onclick="settime(this)" value="免费获取验证码" class="btn btn-success">
+							      <input type="text" class="am-radius"  id="mobile" placeholder="Phone">
 							    </div>
 
+                                <div class="am-form-group form-horizontal m-t-20">
+                                    <span class="input-group-btn">
+                                        <input type="text"  name="forcode" placeholder="验证码"
+                                               style="float: left;width: 200px">
+                                        <input type="button" id="forcode" onclick="settime(this)" value="获取验证码"
+                                               class="btn btn-success" style="float: right;" >
+                                    </span>
+                                    <br><br>
+                                </div>
                                 <div class="am-form-group ">
                                     <button type="submit" class="am-btn am-btn-primary am-radius" style="width: 100%;height: 100%;">确认提交</button>
                                 </div>
@@ -51,18 +59,16 @@
             </div>
         </div>
 <!--手机号码输入框代码-->
-<div class="form-group">
-    <label for="mobile" class="col-lg-2 col-sm-2 control-label">手机号码:</label>
-    <div class="col-lg-10">
-        <div class="input-group m-bot15">
-    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="手机号码">
-    <span class="input-group-btn">
-         <input type="button" id="forcode" onclick="settime(this)" value="免费获取验证码" class="btn btn-success">
-    </span>
-        </div>
-    <p class="help-block">请填写绑定手机号</p>
-    </div>
-</div>
+{#<div class="form-group">#}
+{#    <div class="col-lg-10">#}
+{#        <div class="input-group m-bot15">#}
+{#    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="验证码">#}
+{#    <span class="input-group-btn">#}
+{#         <input type="button" id="forcode" onclick="settime(this)" value="获取验证码" class="btn btn-success">#}
+{#    </span>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="../static/js/page_recoverpw.js"></script>
  </body>

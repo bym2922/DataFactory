@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 import http.client
 import urllib
+import random
 
 
 def login_required(view_func):
@@ -49,7 +50,13 @@ def send_sms(text, mobile):
     return response_str
 
 
+def randomforcode():
+    forcode = random.randint(100000, 999999)
+    print(forcode)
+    return forcode
+
 # if __name__ == '__main__':
-#     mobile = "15718835208"
-#     text = "您的验证码是：121254。请不要把验证码泄露给其他人。"
-#     print(send_sms(text, mobile))
+    # mobile = "15718835208"
+    # text = "您的验证码是："+randomforcode()+"。请不要把验证码泄露给其他人。(10分钟内有效)"
+    # print(send_sms(text, mobile))
+    # randomforcode()
