@@ -3,7 +3,7 @@ $('#forcode').click(function () {
     $.ajax({
         cache:false,
         type:"POST",
-        url:"http://192.168.1.177:8000/forcode/",
+        url:"http://192.168.1.177:8000/send_forcode/",
         data:{
            "mobile":$("#mobile").val(),
         },

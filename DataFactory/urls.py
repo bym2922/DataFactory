@@ -42,6 +42,6 @@ urlpatterns = [
     url(r'^logout/$', uv.logout),
     url(r'^delete_user/$', uv.delete_user),
     url(r'^update_user/$', uv.update_user),
-    url(r'^forcode/$', uv.forcode11)
+    url(r'^send_forcode/$', uv.send_forcode)
 
 ]

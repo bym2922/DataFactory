@@ -52,11 +52,4 @@ def send_sms(text, mobile):
 
 def randomforcode():
     forcode = random.randint(100000, 999999)
-    print(forcode)
     return forcode
-
-# if __name__ == '__main__':
-    # mobile = "15718835208"
-    # text = "您的验证码是："+randomforcode()+"。请不要把验证码泄露给其他人。(10分钟内有效)"
-    # print(send_sms(text, mobile))
-    # randomforcode()

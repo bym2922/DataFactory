@@ -5,9 +5,10 @@ from math import ceil
 from .forms import UserForm
 from .models import User
 from .helper import login_required, randomforcode, send_sms
-import json
 
 # Create your views here.
+
+FORCODE = ''
 
 
 def login(request):
@@ -75,22 +76,18 @@ def logout(request):
 
 def page_recoverpw(request):
     if request.method == 'POST':
-        forcode1 = randomforcode()
+        username = request.POST.get('username')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
-        # phone = request.POST.get('mobile')
-        phone = forcode11(request)
+        phone = request.POST.get('phone')
         forcode = request.POST.get('forcode')
-        print(phone)
+        print(password, password2, phone)
         try:
             user = User.objects.get(phone=phone)
         except User.DoesNotExist:
             print("用户不存在！")
-        text = "您的验证码是:"+str(forcode1)+"。请不要把验证码泄露给其他人。(10分钟内有效)"
-        print(text)
-        # send_sms(text, phone)
-        if password == password2:
-            if forcode == forcode1:
+        if username and password and password == password2:
+            if int(forcode) == int(FORCODE):
                 user.password = make_password(password)
                 user.save()
                 print('密码已重置！')
@@ -104,16 +101,21 @@ def page_recoverpw(request):
     return render(request, 'page_recoverpw.html')
 
 
-def forcode11(request):
+def send_forcode(request):
     if request.method == 'POST':
+        CODE = randomforcode()
+        global FORCODE
+        FORCODE = FORCODE + str(CODE)
         phone = request.POST.get('mobile')
-        # print(phone)
-        data = {
-            "phone": phone
-        }
-        return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
-    else:
-        print('111111111111')
+        try:
+            user = User.objects.get(phone=phone)
+        except User.DoesNotExist:
+            print("用户不存在！")
+        text = "您的验证码是：" + FORCODE + "。请不要把验证码泄露给其他人。"
+        send_sms(text, phone)
+        print(text)
+        return HttpResponse(text)
+
 
 @login_required
 def change_pswd(request):
@@ -132,7 +134,6 @@ def change_pswd(request):
             if check_password(oldpswd, user.password):
                 user.password = make_password(newpswd)
                 user.save()
-                # request.session.flush()
                 print('密码已修改，请您重新登录！')
                 return redirect('/logout', {'error': '密码已修改，请您重新登录！'})
             else:
