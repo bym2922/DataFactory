@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest,HttpResponse
-from math import ceil
-from django.core import serializers
-from .forms import FileForm
+from django.http import HttpResponse
+from functools import reduce
+from math import ceil, floor
 from .models import File
 from user.helper import login_required
 import xlwt
@@ -11,6 +10,7 @@ import json
 import time
 import os
 import pandas as pd
+
 # Create your views here.
 
 
@@ -38,10 +38,18 @@ def table_basic(request):
             }
     return render(request, "table_basic.html", {'data': data})
 
+
 @login_required
 def data(request):
     fname = request.GET.get('fname')
     data = get_data(fname)
+    return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
+
+
+# @login_required
+def pie_data(request):
+    fname = request.GET.get('fname')
+    data = get_data2(fname)
     return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
@@ -148,27 +156,55 @@ def file_upload(request):
 def get_data1(fname):
     data = clear_data(fname)
     data1 = dict()
-    print(list(data))
+    data2 = dict()
     for i in range(len(data.columns)):
         data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
-    print(data1)
-    return data1
+    for key, value in data1.items():
+        if is_number(value[0]):
+            print(str(value[0]))
+            sum1 = reduce(add, value)
+            data2.update({key: sum1})
+        else:
+            continue
+    print(data2)
+    return data2
 
 
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+
+def add(x, y):
+    return x+y
+
+
+# 饼状图数据
 def get_data2(fname):
     data = clear_data(fname)
     data1 = dict()
-    print(list(data))
     for i in range(len(data.columns)):
         data1.update({data.columns[i]: data[data.columns[i]].values.tolist()})
-    print(data1)
-    dd = {'Name': list(data),
-          'Data': data1,
-          }
+    data3 = []
+    for key, value in data1.items():
+        d = {}
+        if is_number(value[0]):
+            # print(str(value[0]))
+            sum1 = floor(reduce(add, value))
+            d['Name'] = key
+            d['Data'] = sum1
+            data3.append(d)
+        else:
+            continue
+        print(d)
+    dd = {'list': data3}
     return dd
 
 
-# 处理表格数据, 按行获取
+# 柱状图数据
 def get_data(fname):
     f = File.objects.get(fname=fname).fpath
     if f:
@@ -184,11 +220,6 @@ def get_data(fname):
         dic = {}
         for rowindex in range(1, nrows):
             crr = []
-            # dic = {}
-            # for colindex in range(0, ncols):
-            #     s = tblTDLYMJANQSXZB.cell(rowindex, colindex).value
-            #     dic[arr[colindex]] = s
-            # totalArray.append(dic)
             for colindex in range(0, ncols):
                 s = tblTDLYMJANQSXZB.cell(rowindex, colindex).value
                 crr.append(s)
