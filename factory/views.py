@@ -39,7 +39,7 @@ def table_basic(request):
     return render(request, "table_basic.html", {'data': data})
 
 
-@login_required
+# @login_required
 def data(request):
     fname = request.GET.get('fname')
     data = get_data(fname)

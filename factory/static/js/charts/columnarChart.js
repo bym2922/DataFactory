@@ -159,7 +159,7 @@ function createEcharts() {
         } else {
             itemStyle = {
                 normal: {
-                    color: '#70bf41'
+
 
                 }
             };
