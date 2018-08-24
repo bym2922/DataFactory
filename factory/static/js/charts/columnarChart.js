@@ -170,7 +170,7 @@ function createEcharts() {
         seriesItem.name = fields[i];
         seriesItem.type = 'bar';
         seriesItem.smooth = false;
-        seriesItem.yAxisIndex = i - 1;
+        seriesItem.yAxisIndex = 0;
         seriesItem.itemStyle = itemStyle;
         seriesItem.data = [];
         for (var key in itemsMap) {
@@ -189,8 +189,9 @@ function createEcharts() {
         yAxis_obj.type = 'value';
         // yAxis_obj.name = fields[i];
         yAxis_obj.show = true;
-        yAxis_arr.push(yAxis_obj);
+
     }
+    yAxis_arr.push(yAxis_obj);
     for (var j in itemsMap) {
         option.xAxis[0].data.push(itemsMap[j][0]);
     }

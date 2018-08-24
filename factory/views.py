@@ -4,10 +4,9 @@ from functools import reduce
 from math import ceil, floor
 from .models import File
 from user.helper import login_required
-import xlwt
-import xlrd
 import json
 import time
+import csv
 import os
 import pandas as pd
 
@@ -39,14 +38,14 @@ def table_basic(request):
     return render(request, "table_basic.html", {'data': data})
 
 
-# @login_required
+@login_required
 def data(request):
     fname = request.GET.get('fname')
     data = get_data(fname)
     return HttpResponse(json.dumps(data, ensure_ascii=False), content_type='application/json')
 
 
-# @login_required
+@login_required
 def pie_data(request):
     fname = request.GET.get('fname')
     data = get_data2(fname)
@@ -119,33 +118,24 @@ def file_upload(request):
                 f1.delete()
             print(file, fname)
             fileext = fname.split(".")[1]
-            with open(os.path.join('files', fname), 'w', encoding="utf-8") as f:
-                if fileext == "xlsx" or fileext == "xls" or fileext == "csv":
+            with open(os.path.join('files', fname), 'wb+') as f:
+                if fileext == "xlsx" or fileext == "xls":
                     data = pd.read_excel(file)
-                    data1 = list(pd.read_excel(file))
-                    # 创建一个workbook 设置编码
-                    workbook = xlwt.Workbook(encoding='utf-8')
-                    # 创建一个worksheet
-                    worksheet = workbook.add_sheet('My Worksheet')
-                    for i in range(len(data1)):
-                        worksheet.write(0, i, str(data1[i]))
-                        d1 = data[data1[i]]
-                        for j in range(len(d1)):
-                            if str(d1[j]) == 'nan':
-                                d1[j] = ''
-                            # 写入excel 参数对应 行, 列, 值
-                            worksheet.write(j+1, i, str(d1[j]))
-                            # 保存到本地
-                            workbook.save('files/'+fname)
-                    date = time.localtime(time.time())
-                    date = time.strftime('%Y-%m-%d %H:%M:%S', date)
-                    f2 = File(fname=fname, fpath=fpath+'\\files\\'+fname, uname=uname, date=date)
-                    # 将本地文件保存到数据库
-                    f2.save()
-                    return redirect('/table_basic')
+                    data.to_excel(os.path.join('files', fname), index=False)
+
+                elif fileext == "csv":
+                    data = pd.read_csv(file)
+                    data.to_csv(os.path.join('files', fname), index=False, sep=',')
                 else:
                     print("文件类型不支持！")
-                return render(request, "file_upload.html")
+                    return redirect('/file_upload')
+
+                date = time.localtime(time.time())
+                date = time.strftime('%Y-%m-%d %H:%M:%S', date)
+                f2 = File(fname=fname, fpath=fpath+'\\files\\'+fname, uname=uname, date=date)
+                # 将本地文件保存到数据库
+                f2.save()
+                return redirect('/table_basic')
         else:
             return render(request, "file_upload.html")
     else:
@@ -204,27 +194,37 @@ def get_data2(fname):
     return dd
 
 
+# def csv_data(f):
+
+
 # 柱状图数据
 def get_data(fname):
     f = File.objects.get(fname=fname).fpath
+    ext = fname.split('.')[1]
     if f:
-        data = xlrd.open_workbook(f, formatting_info=True)
-        tblTDLYMJANQSXZB = data.sheets()[0]
-        # 找到有几列几列
-        nrows = tblTDLYMJANQSXZB.nrows  # 行数
-        ncols = tblTDLYMJANQSXZB.ncols  # 列数
-        print(nrows, ncols)
-        arr = []
-        for i in range(0, ncols):
-            arr.append(tblTDLYMJANQSXZB.cell(0, i).value)
         dic = {}
-        for rowindex in range(1, nrows):
-            crr = []
-            for colindex in range(0, ncols):
-                s = tblTDLYMJANQSXZB.cell(rowindex, colindex).value
-                crr.append(s)
-                dic[rowindex] = crr
-        print(dic)
+        crr = []
+        if ext == 'csv':
+            with open(f, 'r') as f1:
+                reader = csv.reader(f1)
+                for line in reader:
+                    crr.append(line)
+                nrows = len(crr)
+                print(nrows)
+                arr = crr[0]
+                print(arr)
+                for rowindex in range(1, nrows):
+                        dic[rowindex] = crr[rowindex]
+        else:
+            data = pd.read_excel(f)
+            nrows = list(data.shape)[0]
+            arr = list(data)
+            for i in range(nrows):
+                crr.append(list(data.iloc[i]))
+            for rowindex in range(1, nrows+1):
+                    dic[rowindex] = crr[rowindex-1]
+
+        # print(dic)
         totalArray = {
             "name": arr,
             "data": dic
@@ -235,7 +235,22 @@ def get_data(fname):
 # 读取表格
 def clear_data(fname):
     f = File.objects.get(fname=fname).fpath
+    ext = fname.split('.')[1]
     if f:
-        data = pd.read_excel(f)
+        if ext == 'csv':
+            data = pd.read_csv(f)
+        else:
+            data = pd.read_excel(f)
         return data
+
+
+@login_required
+def delete_file(request):
+    fname = request.GET.get('fname')
+    try:
+        file = File.objects.get(fname=fname)
+    except File.DoesNotExist:
+        print('文件不存在')
+    file.delete()
+    return redirect('/table_basic')
 

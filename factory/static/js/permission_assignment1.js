@@ -141,7 +141,7 @@ function confirm_del(obj) {
 
 
 
-更新功能
+// 更新功能
 function update(obj) {
     var oUser = document.getElementById('userName');
     var oPermission = document.getElementById('permission');

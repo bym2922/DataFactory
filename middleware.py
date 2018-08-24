@@ -17,6 +17,7 @@ class AccessMiddleware(MiddlewareMixin):
                 username = '未登录用户'
             date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             option = request.get_full_path()
+            print(option)
 
             # print(option.split('/')[1], option.split('/')[2].split('&')[0], option.split('/')[2].split('&')[1])
             f.write(username + ' ')
