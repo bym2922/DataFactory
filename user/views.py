@@ -177,9 +177,9 @@ def user_manage(request):
 
 @login_required
 def delete_user(request):
-    username = request.GET.get('username')
+    phone = request.GET.get('phone')
     try:
-        user = User.objects.get(username=username)
+        user = User.objects.get(phone=phone)
     except User.DoesNotExist:
         print('用户不存在！')
     user.delete()
@@ -190,12 +190,14 @@ def delete_user(request):
 
 @login_required
 def update_user(request):
-    username = request.GET.get('username')
-    print(username)
+    phone = request.GET.get('phone')
+    print('****')
+    print(phone)
+
     power = request.GET.get('power')
     print(power)
     try:
-        user = User.objects.get(username=username)
+        user = User.objects.get(phone=phone)
     except User.DoesNotExist:
         print('用户不存在！')
     user.power = power

@@ -114,6 +114,7 @@ function delAll() {
 // 修改功能
 function modify(obj) {
     var oUser = document.getElementById('userName');
+    var oPhone = document.getElementById('userPhone');
     var oPermission = document.getElementById('permission');
     var oDescription = document.getElementById('permission1');
     var oTr = obj.parentNode.parentNode;
@@ -121,7 +122,8 @@ function modify(obj) {
     rowIndex = obj.parentNode.parentNode.rowIndex;
     oUser.value = aTd[1].innerHTML;
     oPermission.value = aTd[2].innerHTML;
-    oDescription.value = aTd[3].innerHTML;
+    oPhone.value = aTd[3].innerHTML;
+    oDescription.value = aTd[4].innerHTML;
     $('#box').show();
     $('#cover').show();
     $('#confirm').attr("disabled", false);
@@ -132,11 +134,13 @@ function confirm_del(obj) {
     $('#box1').show();
     $('#cover').show();
     var ouser=document.getElementById("get_username");
+    var ophone=document.getElementById("get_userph");
     var oTr = obj.parentNode.parentNode;
     var aTd = oTr.getElementsByTagName('td');
     ouser.innerHTML = aTd[1].innerHTML;
+    ophone.value = aTd[6].innerHTML;
     get_username1=document.getElementById("get_username1");
-    get_username1.href='/delete_user?username='+aTd[1].innerHTML;
+    get_username1.href='/delete_user?username='+aTd[1].innerHTML+'&phone='+ophone.value;
 }
 
 
@@ -144,9 +148,10 @@ function confirm_del(obj) {
 // 更新功能
 function update(obj) {
     var oUser = document.getElementById('userName');
+    var ophone = document.getElementById('userPhone');
     var oPermission = document.getElementById('permission');
     get_username2=document.getElementById("get_username2");
-    get_username2.href='/update_user?username='+oUser.value+'&power='+oPermission.value;
+    get_username2.href='/update_user?username='+oUser.value+'&phone='+ophone.value+'&power='+oPermission.value;
     $('#box').hide();
     $('#cover').hide();
 }

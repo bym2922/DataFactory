@@ -118,6 +118,12 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>联系方式</th>
+                    <td>
+                        <input type="text" class="userName form-control" id="userPhone"  autocomplete="off" name="userphone" readonly>
+                    </td>
+                </tr>
+                <tr>
                     <th>当前权限</th>
                     <td>
                         <select id="permission" class="permission form-control">
@@ -137,8 +143,8 @@
                 <tr>
                     <td colspan="2">
                         <div class="update">
-                            <button type="button" onclick="update(this)" class="btn btn-success">
-                                <a href="" id="get_username2" class="confirm_a">确定</a>
+                            <button type="button" class="btn btn-success">
+                                <a id="get_username2" class="confirm_a"  onclick="update(this)">确定</a>
                             </button>
                         </div>
                         <div class="cancel" id="cancel">
