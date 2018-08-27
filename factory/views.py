@@ -210,9 +210,7 @@ def get_data(fname):
                 for line in reader:
                     crr.append(line)
                 nrows = len(crr)
-                print(nrows)
                 arr = crr[0]
-                print(arr)
                 for rowindex in range(1, nrows):
                         dic[rowindex] = crr[rowindex]
         else:
@@ -220,11 +218,17 @@ def get_data(fname):
             nrows = list(data.shape)[0]
             arr = list(data)
             for i in range(nrows):
-                crr.append(list(data.iloc[i]))
+                brr = []
+                d = list(data.iloc[i])
+                for j in range(len(d)):
+                    s = d[j]
+                    if is_number(s):
+                        s = float(s)
+                    brr.append(s)
+                crr.append(brr)
             for rowindex in range(1, nrows+1):
                     dic[rowindex] = crr[rowindex-1]
 
-        # print(dic)
         totalArray = {
             "name": arr,
             "data": dic
