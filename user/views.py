@@ -91,13 +91,13 @@ def page_recoverpw(request):
                 user.password = make_password(password)
                 user.save()
                 print('密码已重置！')
-                redirect('/logout')
+                return redirect('/logout')
             else:
                 print('验证码输入错误！')
-                redirect('/page_recoverpw')
+                return redirect('/page_recoverpw')
         else:
             print("两次密码输入不一致！")
-            redirect('/page_recoverpw')
+            return redirect('/page_recoverpw')
     return render(request, 'page_recoverpw.html')
 
 
@@ -105,7 +105,7 @@ def send_forcode(request):
     if request.method == 'POST':
         CODE = randomforcode()
         global FORCODE
-        FORCODE = FORCODE + str(CODE)
+        FORCODE = str(CODE)
         phone = request.POST.get('mobile')
         try:
             user = User.objects.get(phone=phone)
